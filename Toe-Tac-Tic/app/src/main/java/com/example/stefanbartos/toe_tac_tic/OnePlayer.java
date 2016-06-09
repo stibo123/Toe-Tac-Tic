@@ -1,8 +1,10 @@
 package com.example.stefanbartos.toe_tac_tic;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.Button;
 
 /**
@@ -25,6 +27,11 @@ public class OnePlayer extends AppCompatActivity{
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
         initVariables();
+        Game();
+    }
+
+    private void Game() {
+
     }
 
     private void initVariables() {
@@ -37,6 +44,63 @@ public class OnePlayer extends AppCompatActivity{
         bottomleft = (Button) findViewById(R.id.bottomleft);
         bottom = (Button) findViewById(R.id.bottom);
         bottomright = (Button) findViewById(R.id.bottomright);
+
+        topleft.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                topleft.setBackground(Drawable.createFromPath("drawable/o.png"));
+            }
+        });
+        top.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        topright.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        midleft.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        mid.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        midright.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        bottomleft.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        bottom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        bottomright.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
+
+
 
 }

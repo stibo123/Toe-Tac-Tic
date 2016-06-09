@@ -22,6 +22,7 @@
         <activity android:name=".Stats" />
         <activity android:name=".BTGame" />
         <activity android:name=".TwoPlayer"></activity>
+        <activity android:name=".OnePlayer"></activity>
     </application>
 
 </manifest>

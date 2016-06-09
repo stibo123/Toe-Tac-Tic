@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         buttonOnePlayer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent OPintent = new Intent(getApplicationContext(), tictactoe_layout.class);
+                Intent OPintent = new Intent(getApplicationContext(), OnePlayer.class);
                 startActivity(OPintent);
             }
         });
