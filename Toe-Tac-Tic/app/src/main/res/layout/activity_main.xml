@@ -7,8 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.stefanbartos.toe_tac_tic.MainActivity"
-    android:background="@drawable/classic_stone">
+    tools:context="com.example.stefanbartos.toe_tac_tic.MainActivity">
 
     <TextView
         android:layout_width="wrap_content"
@@ -18,8 +17,7 @@
         android:id="@+id/textView"
         android:textSize="50dp"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:textColor="#e7e4e4" />
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:layout_width="fill_parent"
@@ -28,7 +26,6 @@
         android:id="@+id/buttonOnePlayer"
         android:layout_marginTop="54dp"
         android:layout_below="@+id/textView"
-        android:layout_centerHorizontal="true"
         android:layout_marginBottom="10dp"
         android:clickable="false"
         android:contextClickable="false" />
