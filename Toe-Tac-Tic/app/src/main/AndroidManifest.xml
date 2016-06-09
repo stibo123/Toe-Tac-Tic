@@ -20,7 +20,8 @@
         </activity>
         <activity android:name=".tictactoe_layout" />
         <activity android:name=".Stats" />
-        <activity android:name=".BTGame"></activity>
+        <activity android:name=".BTGame" />
+        <activity android:name=".TwoPlayer"></activity>
     </application>
 
 </manifest>

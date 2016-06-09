@@ -38,7 +38,7 @@ public class BTGame extends AppCompatActivity {
             startActivityForResult(enableBtIntent, 1);
         }
     }
-
+/*
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
@@ -55,7 +55,7 @@ public class BTGame extends AppCompatActivity {
     IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
 
     //registerReceiver(mReceiver, filter) {
-
+*/
     }
 
 

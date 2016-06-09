@@ -6,12 +6,15 @@ import android.os.Bundle;
 
 public class tictactoe_layout extends AppCompatActivity {
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tictactoe_layout);
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
+
     }
 
 
