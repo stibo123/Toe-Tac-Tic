@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.stefanbartos.toe_tac_tic">
 
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -16,7 +19,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".tictactoe_layout" />
-        <activity android:name=".Stats"></activity>
+        <activity android:name=".Stats" />
+        <activity android:name=".BTGame"></activity>
     </application>
 
 </manifest>
