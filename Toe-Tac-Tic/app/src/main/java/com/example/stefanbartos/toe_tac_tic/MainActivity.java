@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         buttonOnePlayer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent OPintent = new Intent(String.valueOf(OnePlayer.class));
+                Intent OPintent = new Intent(getApplicationContext(), OnePlayer.class);
                 startActivity(OPintent);
             }
         });
@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         buttonTwoPlayer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent TPintent = new Intent(TwoPlayer.class);
+                Intent TPintent = new Intent(getApplicationContext(),TwoPlayer.class);
                 startActivity(TPintent);
             }
         });
@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         buttonBTGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent BTGame = new Intent(BTGame.class);
+                Intent BTGame = new Intent(getApplicationContext(), BTGame.class);
                 startActivity(BTGame);
             }
         });
@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
         buttonStats.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent statsIntent = new Intent(Stats.class);
+                Intent statsIntent = new Intent(getApplicationContext(), Stats.class);
                 startActivity(statsIntent);
             }
         });
