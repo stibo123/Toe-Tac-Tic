@@ -44,14 +44,14 @@ public class TwoPlayer extends AppCompatActivity {
         top1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                top1.setText();
+                top1.setText(playerTurn());
             }
         });
 
         top2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                top2.setText("X");
+                top2.setText(playerTurn());
             }
         });
 
@@ -65,50 +65,56 @@ public class TwoPlayer extends AppCompatActivity {
         mid1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mid1.setText("X");
+                mid1.setText(playerTurn());
             }
         });
 
         mid2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mid2.setText("X");
+                mid2.setText(playerTurn());
             }
         });
 
         mid3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mid3.setText("X");
+                mid3.setText(playerTurn());
             }
         });
 
         bot1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                bot1.setText("X");
+                bot1.setText(playerTurn());
             }
         });
 
         bot2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                bot2.setText("X");
+                bot2.setText(playerTurn());
             }
         });
 
         bot3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                bot3.setText("X");
+                bot3.setText(playerTurn());
             }
         });
     }
 
     public String playerTurn(){
-        int cnt = 0;
-        if (cnt % 2){
+        int cnt = 1;
+        if (cnt % 2 == 0){
             sign = "X";
+            cnt = 1;
+        }
+        else
+        {
+            sign = "O";
+            cnt+=1;
         }
         return sign;
     }
