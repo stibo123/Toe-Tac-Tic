@@ -49,7 +49,7 @@ public class TwoPlayer extends AppCompatActivity {
         top1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                top1.setText(playerTurn());
+                playerTurn(top1);
                 clickCNT+=1;
             }
         });
@@ -57,7 +57,7 @@ public class TwoPlayer extends AppCompatActivity {
         top2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                top2.setText(playerTurn());
+                playerTurn(top2);
                 clickCNT+=1;
             }
         });
@@ -65,7 +65,7 @@ public class TwoPlayer extends AppCompatActivity {
         top3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                top3.setText(playerTurn());
+                playerTurn(top3);
                 clickCNT+=1;
             }
         });
@@ -73,7 +73,7 @@ public class TwoPlayer extends AppCompatActivity {
         mid1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mid1.setText(playerTurn());
+                playerTurn(mid1);
                 clickCNT+=1;
             }
         });
@@ -81,7 +81,7 @@ public class TwoPlayer extends AppCompatActivity {
         mid2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mid2.setText(playerTurn());
+                playerTurn(mid2);
                 clickCNT+=1;
             }
         });
@@ -89,7 +89,7 @@ public class TwoPlayer extends AppCompatActivity {
         mid3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mid3.setText(playerTurn());
+                playerTurn(mid3);
                 clickCNT+=1;
             }
         });
@@ -97,7 +97,7 @@ public class TwoPlayer extends AppCompatActivity {
         bot1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                bot1.setText(playerTurn());
+                playerTurn(bot1);
                 clickCNT+=1;
             }
         });
@@ -105,7 +105,7 @@ public class TwoPlayer extends AppCompatActivity {
         bot2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                bot2.setText(playerTurn());
+                playerTurn(bot2);
                 clickCNT+=1;
             }
         });
@@ -113,19 +113,19 @@ public class TwoPlayer extends AppCompatActivity {
         bot3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                bot3.setText(playerTurn());
+                playerTurn(bot3);
                 clickCNT+=1;
             }
         });
     }
 
-    public String playerTurn() {
+    public String playerTurn(Button b) {
         if (clickCNT <= 9) {
             if (cnt % 2 == 0) {
-                sign = "X";
+                b.setBackgroundResource(R.drawable.x);
                 cnt = 1;
             } else {
-                sign = "O";
+                b.setBackgroundResource(R.drawable.o);
                 cnt += 1;
             }
             return sign;
