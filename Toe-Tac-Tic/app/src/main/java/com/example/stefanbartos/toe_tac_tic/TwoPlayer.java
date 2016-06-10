@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 public class TwoPlayer extends AppCompatActivity {
 
@@ -16,6 +17,10 @@ public class TwoPlayer extends AppCompatActivity {
     private Button bot1;
     private Button bot2;
     private Button bot3;
+
+    private int clickCNT = 0;
+    private int cnt = 1;
+    private String winner;
 
     private String sign;
 
@@ -45,6 +50,7 @@ public class TwoPlayer extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 top1.setText(playerTurn());
+                clickCNT+=1;
             }
         });
 
@@ -52,6 +58,7 @@ public class TwoPlayer extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 top2.setText(playerTurn());
+                clickCNT+=1;
             }
         });
 
@@ -59,6 +66,7 @@ public class TwoPlayer extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 top3.setText(playerTurn());
+                clickCNT+=1;
             }
         });
 
@@ -66,6 +74,7 @@ public class TwoPlayer extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 mid1.setText(playerTurn());
+                clickCNT+=1;
             }
         });
 
@@ -73,6 +82,7 @@ public class TwoPlayer extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 mid2.setText(playerTurn());
+                clickCNT+=1;
             }
         });
 
@@ -80,6 +90,7 @@ public class TwoPlayer extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 mid3.setText(playerTurn());
+                clickCNT+=1;
             }
         });
 
@@ -87,6 +98,7 @@ public class TwoPlayer extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 bot1.setText(playerTurn());
+                clickCNT+=1;
             }
         });
 
@@ -94,6 +106,7 @@ public class TwoPlayer extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 bot2.setText(playerTurn());
+                clickCNT+=1;
             }
         });
 
@@ -101,21 +114,25 @@ public class TwoPlayer extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 bot3.setText(playerTurn());
+                clickCNT+=1;
             }
         });
     }
 
-    public String playerTurn(){
-        int cnt = 1;
-        if (cnt % 2 == 0){
-            sign = "X";
-            cnt = 1;
+    public String playerTurn() {
+        if (clickCNT <= 9) {
+            if (cnt % 2 == 0) {
+                sign = "X";
+                cnt = 1;
+            } else {
+                sign = "O";
+                cnt += 1;
+            }
+            return sign;
         }
-        else
-        {
-            sign = "O";
-            cnt+=1;
+        else{
+            Toast.makeText(getApplicationContext(), "Spieler " + winner + "hat gewonnen", Toast.LENGTH_LONG).show();
         }
-        return sign;
+        return null;
     }
 }
