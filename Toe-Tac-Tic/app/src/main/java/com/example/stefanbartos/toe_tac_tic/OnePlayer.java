@@ -152,38 +152,7 @@ public class OnePlayer extends AppCompatActivity{
 
     private void bot() {
         Button button = null;
-        for (int x = 0;x<botarray.length-1;x++)
-        {
-            for(int y = 0;y<botarray[0].length-1;y++)
-            {
-                if (botarray[x][y]=='X'||botarray[x][y]=='O')
-                {
-                    if(botarray[x+1][y]=='X'||botarray[x+1][y]=='O')
-                    {
-                        button = findcorrectButton(x+1,y);
-                        button.setBackgroundResource(R.drawable.o);
-                        botarray[x+1][y]='O';
-                    }else {
-                        button = findcorrectButton(x,y+1);
-                        button.setBackgroundResource(R.drawable.o);
-                        botarray[x][y+1]='O';
-                    }
-                }
-                else{
-                    if(botarray[x+1][y]=='X'||botarray[x+1][y]=='O')
-                    {
-                        button = findcorrectButton(x, y);
-                        button.setBackgroundResource(R.drawable.o);
-                        botarray[x][y]='O';
-                    }
-                    else {
-                        button = findcorrectButton(x+1, y);
-                        button.setBackgroundResource(R.drawable.o);
-                        botarray[x+1][y]='O';
-                    }
-                }
-            }
-        }
+        
 
     }
 
