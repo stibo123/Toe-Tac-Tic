@@ -1,9 +1,17 @@
 package com.example.stefanbartos.toe_tac_tic;
 
+import android.app.AlertDialog;
+import android.content.ContentValues;
+import android.content.DialogInterface;
+import android.database.sqlite.SQLiteDatabase;
+import android.location.Location;
+import android.location.LocationManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 public class TwoPlayer extends AppCompatActivity {
@@ -24,14 +32,39 @@ public class TwoPlayer extends AppCompatActivity {
 
     private String sign;
 
+    private Player player;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tictactoe_layout);
 
+        playerInput();
         initField();
         selection();
     }
+
+    public void playerInput(){
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        final LinearLayout vDialog = (LinearLayout) getLayoutInflater().inflate(R.layout.dialog, null);
+        alert.setView(vDialog);
+        alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                EditText e1 = (EditText) vDialog.findViewById(R.id.editTextP1Name);
+                EditText e2 = (EditText) vDialog.findViewById(R.id.editTextP2Name);
+
+
+                player = new Player(e1.getText().toString(), 0);
+                player = new Player(e2.getText().toString(), 0);                                    //unnötiges anlegen von Player, müssen bei Punkteberechung angelegt werden wegen Felder Name und Punkte
+            }
+        });
+
+        alert.setNegativeButton("Cancel", null);
+        alert.show();
+    }
+
+
 
     public void initField() {
         top1 = (Button) findViewById(R.id.topleft);

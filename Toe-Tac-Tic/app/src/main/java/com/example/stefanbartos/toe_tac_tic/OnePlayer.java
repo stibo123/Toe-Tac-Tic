@@ -350,6 +350,8 @@ public class OnePlayer extends AppCompatActivity{
             int b = ((int) (Math.random() * 3));
             button = findcorrectButton(a, b);
             if (button.isEnabled()) {
+                //TimeThread t = new TimeThread();
+               // t.start();
                 button.setBackgroundResource(R.drawable.o);
                 button.setEnabled(false);
                 botarray[a][b] = 'O';
