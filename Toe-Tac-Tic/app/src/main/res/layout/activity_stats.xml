@@ -9,51 +9,10 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.stefanbartos.toe_tac_tic.Stats">
 
-    <TextView
+    <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Player:"
-        android:id="@+id/aigameswontv"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Paolo"
-        android:id="@+id/playernametv"
-        android:layout_below="@+id/aigameswontv"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/aigameswontv"
-        android:layout_alignEnd="@+id/aigameswontv" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Punkte:"
-        android:id="@+id/ainametv"
-        android:layout_below="@+id/playernametv"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/playernametv"
-        android:layout_alignEnd="@+id/playernametv" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="21"
-        android:id="@+id/textView5"
-        android:layout_below="@+id/ainametv"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/ainametv"
-        android:layout_alignEnd="@+id/ainametv" />
+        android:id="@+id/listView"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>

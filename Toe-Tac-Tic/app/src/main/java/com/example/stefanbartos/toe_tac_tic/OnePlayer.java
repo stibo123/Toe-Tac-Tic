@@ -4,6 +4,8 @@ import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteStatement;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -43,8 +45,6 @@ public class OnePlayer extends AppCompatActivity{
     TextView playergameswontv;
     TextView ainametv;
     TextView playernametv;
-    int aigameswon = 0;
-    int playergameswon = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -152,9 +152,9 @@ public class OnePlayer extends AppCompatActivity{
         ai = new Player(ainame, 0);
 
         aigameswontv = (TextView) findViewById(R.id.aigameswontv);
-        aigameswontv.setText(aigameswon+ "");
+        aigameswontv.setText(ai.getPunktezahl()+ "");
         playergameswontv = (TextView) findViewById(R.id.playergameswontv);
-        playergameswontv.setText(playergameswon+ "");
+        playergameswontv.setText(player1.getPunktezahl()+ "");
 
         ainametv = (TextView) findViewById(R.id.ainametv);
         ainametv.setText(ainame);
@@ -296,8 +296,8 @@ public class OnePlayer extends AppCompatActivity{
         if(character=='O')
         {
             playername = ai.getName();
-            aigameswon++;
-            aigameswontv.setText(aigameswon+"");
+            ai.setPunktezahl(ai.getPunktezahl()+1);
+            aigameswontv.setText(ai.getPunktezahl() + "");
         }
         else if(character=='N')
         {
@@ -306,8 +306,8 @@ public class OnePlayer extends AppCompatActivity{
         else
         {
             playername = player1.getName();
-            playergameswon++;
-            playergameswontv.setText(playergameswon+"");
+            player1.setPunktezahl(player1.getPunktezahl()+1);
+            playergameswontv.setText(player1.getPunktezahl()+"");
         }
 
         Toast.makeText(getApplicationContext(), playername + " hat gewonnen!", Toast.LENGTH_SHORT).show();
@@ -379,5 +379,29 @@ public class OnePlayer extends AppCompatActivity{
         return button;
     }
 
+    @Override
+    public void onBackPressed() {
+        DatabaseHelper databaseHelper = new DatabaseHelper(this);
+        SQLiteDatabase db = databaseHelper.getWritableDatabase();
+        final SQLiteStatement stmt = db.compileStatement(Schemaklasse.STMT_INSERT);
+        db.beginTransaction();
+        try{
+            insertScore(stmt, player1.getName(), ai.getName(), player1.getPunktezahl(), ai.getPunktezahl());
+        }catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            db.endTransaction();
+        }
+        db.setTransactionSuccessful();
+        super.onBackPressed();
+    }
+
+    private void insertScore(SQLiteStatement stmt, String player1name, String ainame, int player1punktezahl, int aipunktezahl) {
+        stmt.bindString(1, player1name);
+        stmt.bindString(2, ainame);
+        stmt.bindLong(3, player1punktezahl);
+        stmt.bindLong(4, aipunktezahl);
+        stmt.executeInsert();
+    }
 
 }
