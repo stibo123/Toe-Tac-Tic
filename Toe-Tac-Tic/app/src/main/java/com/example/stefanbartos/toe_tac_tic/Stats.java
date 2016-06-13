@@ -16,6 +16,7 @@ public class Stats extends AppCompatActivity {
 
     ListView listView;
     ArrayList<String> al = new ArrayList<>();
+    ArrayAdapter<String> adapter = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +43,7 @@ public class Stats extends AppCompatActivity {
     }
 
     private void displayItems() {
-        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, al);
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, al);
         listView.setAdapter(adapter);
     }
 
@@ -60,6 +61,8 @@ public class Stats extends AppCompatActivity {
         DatabaseHelper databaseHelper = new DatabaseHelper(this);
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
         db.delete(Schemaklasse.TABLE_NAME, null, null);
+        al.clear();
+        adapter.notifyDataSetChanged();
     }
 
     @Override
