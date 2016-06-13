@@ -15,6 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 /**
@@ -32,21 +33,26 @@ public class OnePlayer extends AppCompatActivity{
     Button bottomright;
     Player player1;
     Player ai;
-    int moves = 0;
+
     Character [][]botarray = new Character[3][3];
     String playername;
     String name = "";
     SharedPreferences prefs;
     String ainame = "";
+    TextView aigameswontv;
+    TextView playergameswontv;
+    TextView ainametv;
+    TextView playernametv;
+    int aigameswon = 0;
+    int playergameswon = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tictactoe_layout);
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
-        initVariables();
         showDialog();
-
+        initVariables();
     }
 
     private void showDialog() {
@@ -59,11 +65,13 @@ public class OnePlayer extends AppCompatActivity{
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        String yourname=editText.getText().toString();
-                        name = yourname;
+                        name = editText.getText().toString();
+                        player1 = new Player(name, 0);
+                        playernametv.setText(player1.getName());
                     }
                 });
-        builder.show();
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 
     private void initVariables() {
@@ -140,18 +148,25 @@ public class OnePlayer extends AppCompatActivity{
             }
         }
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        ainame = prefs.getString(ainame, "");
-
-        player1 = new Player(name, 0);
+        ainame = prefs.getString("ainame", "AI");
         ai = new Player(ainame, 0);
+
+        aigameswontv = (TextView) findViewById(R.id.aigameswontv);
+        aigameswontv.setText(aigameswon+ "");
+        playergameswontv = (TextView) findViewById(R.id.playergameswontv);
+        playergameswontv.setText(playergameswon+ "");
+
+        ainametv = (TextView) findViewById(R.id.ainametv);
+        ainametv.setText(ainame);
+        playernametv = (TextView) findViewById(R.id.playernametv);
     }
         public void playerTurn(Button button)
         {
             button.setBackgroundResource(R.drawable.x);
             button.setEnabled(false);
             findcorrectBotArray(button);
-            if(checkiffull()==false) {
-                if (checkifwon() == false) {
+            if (checkifwon() == false) {
+                if(checkiffull()==false) {
                     bot();
                 }
             }
@@ -281,15 +296,20 @@ public class OnePlayer extends AppCompatActivity{
         if(character=='O')
         {
             playername = ai.getName();
+            aigameswon++;
+            aigameswontv.setText(aigameswon+"");
+        }
+        else if(character=='N')
+        {
+            playername = "Keiner";
         }
         else
         {
             playername = player1.getName();
+            playergameswon++;
+            playergameswontv.setText(playergameswon+"");
         }
-        if(character=='N')
-        {
-            playername = "Keiner";
-        }
+
         Toast.makeText(getApplicationContext(), playername + " hat gewonnen!", Toast.LENGTH_SHORT).show();
         topleft.setBackgroundResource(R.drawable.button_border);
         topleft.setEnabled(true);

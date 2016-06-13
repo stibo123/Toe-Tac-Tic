@@ -123,7 +123,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="New Text"
-        android:id="@+id/playername"
+        android:id="@+id/playernametv"
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/top"
         android:layout_alignRight="@+id/topright"
@@ -134,7 +134,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="New Text"
-        android:id="@+id/ainame"
+        android:id="@+id/ainametv"
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/gamesplayed"
         android:layout_alignRight="@+id/top"
@@ -145,13 +145,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="New Text"
-        android:id="@+id/playergameswon"
+        android:id="@+id/playergameswontv"
         android:layout_above="@+id/top"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_alignLeft="@+id/topright"
         android:layout_alignStart="@+id/topright"
-        android:layout_alignTop="@+id/aigameswon"
+        android:layout_alignTop="@+id/aigameswontv"
         android:textSize="20dp"/>
 
     <TextView
@@ -159,12 +159,12 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Small Text"
-        android:id="@+id/aigameswon"
+        android:id="@+id/aigameswontv"
         android:layout_above="@+id/topleft"
         android:layout_toRightOf="@+id/gamesplayed"
         android:layout_alignRight="@+id/top"
         android:layout_alignEnd="@+id/top"
-        android:layout_below="@+id/ainame"
+        android:layout_below="@+id/ainametv"
         android:textSize="20dp"/>
 
 </RelativeLayout>
