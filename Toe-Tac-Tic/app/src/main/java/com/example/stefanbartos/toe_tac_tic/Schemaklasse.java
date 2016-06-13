@@ -22,7 +22,7 @@ public class Schemaklasse {
                     Player1 + " TEXT NOT NULL," +
                     Player2 + " TEXT NOT NULL," +
                     player1score + " INT NOT NULL," +
-                    player2score + " INT NOT NULL," +
+                    player2score + " INT NOT NULL" +
                     ")";
     String STMT_DELETE = "DELETE FROM " + TABLE_NAME;
     public final static String STMT_INSERT =

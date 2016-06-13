@@ -66,6 +66,10 @@ public class OnePlayer extends AppCompatActivity{
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         name = editText.getText().toString();
+                        if(name.equals(""))
+                        {
+                            name = "Player1";
+                        }
                         player1 = new Player(name, 0);
                         playernametv.setText(player1.getName());
                     }
@@ -154,7 +158,7 @@ public class OnePlayer extends AppCompatActivity{
         aigameswontv = (TextView) findViewById(R.id.aigameswontv);
         aigameswontv.setText(ai.getPunktezahl()+ "");
         playergameswontv = (TextView) findViewById(R.id.playergameswontv);
-        playergameswontv.setText(player1.getPunktezahl()+ "");
+        playergameswontv.setText(0 + "");
 
         ainametv = (TextView) findViewById(R.id.ainametv);
         ainametv.setText(ainame);
@@ -390,9 +394,10 @@ public class OnePlayer extends AppCompatActivity{
         }catch (Exception e) {
             e.printStackTrace();
         } finally {
+            db.setTransactionSuccessful();
             db.endTransaction();
         }
-        db.setTransactionSuccessful();
+
         super.onBackPressed();
     }
 
