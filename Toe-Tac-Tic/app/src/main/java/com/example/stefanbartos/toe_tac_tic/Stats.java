@@ -2,8 +2,11 @@ package com.example.stefanbartos.toe_tac_tic;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteStatement;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -43,5 +46,25 @@ public class Stats extends AppCompatActivity {
         listView.setAdapter(adapter);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id)
+        {
+            case R.id.deleteallstats: deleteallStats();
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
+    private void deleteallStats() {
+        DatabaseHelper databaseHelper = new DatabaseHelper(this);
+        SQLiteDatabase db = databaseHelper.getWritableDatabase();
+        db.delete(Schemaklasse.TABLE_NAME, null, null);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_stats, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
 }
