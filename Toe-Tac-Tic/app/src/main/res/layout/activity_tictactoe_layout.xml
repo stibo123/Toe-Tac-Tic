@@ -115,41 +115,56 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_alignRight="@+id/topleft"
-        android:layout_alignEnd="@+id/topleft"
-        android:textSize="30dp"/>
+        android:textSize="30dp"
+        android:layout_toStartOf="@+id/top"
+        android:layout_toLeftOf="@+id/top" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="New Text"
-        android:id="@+id/textView3"
+        android:id="@+id/playername"
         android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/top"
+        android:layout_alignRight="@+id/topright"
+        android:layout_alignEnd="@+id/topright"
+        android:textSize="20dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/ainame"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/gamesplayed"
+        android:layout_alignRight="@+id/top"
+        android:layout_alignEnd="@+id/top"
+        android:textSize="20dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/playergameswon"
+        android:layout_above="@+id/top"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_above="@+id/topright"
-        android:layout_toRightOf="@+id/top"
-        android:layout_toEndOf="@+id/top" />
+        android:layout_alignLeft="@+id/topright"
+        android:layout_alignStart="@+id/topright"
+        android:layout_alignTop="@+id/aigameswon"
+        android:textSize="20dp"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Small Text"
-        android:id="@+id/textView2"
-        android:layout_alignBottom="@+id/gamesplayed"
-        android:layout_centerHorizontal="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Small Text"
-        android:id="@+id/textView4"
-        android:layout_above="@+id/textView2"
-        android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/midleft"
-        android:layout_toLeftOf="@+id/textView3"
-        android:layout_toStartOf="@+id/textView3" />
+        android:id="@+id/aigameswon"
+        android:layout_above="@+id/topleft"
+        android:layout_toRightOf="@+id/gamesplayed"
+        android:layout_alignRight="@+id/top"
+        android:layout_alignEnd="@+id/top"
+        android:layout_below="@+id/ainame"
+        android:textSize="20dp"/>
 
 </RelativeLayout>

@@ -7,10 +7,7 @@ import android.graphics.drawable.Drawable;
  */
 public class Player {
     String name;
-
-    public Player(String name) {
-        this.name = name;
-    }
+    int punktezahl;
 
     public String getName() {
         return name;
@@ -18,5 +15,20 @@ public class Player {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getPunktezahl() {
+        return punktezahl;
+    }
+
+    public void setPunktezahl(int punktezahl) {
+        this.punktezahl = punktezahl;
+    }
+
+    public Player(String name, int punktezahl) {
+        this.name = name;
+        this.punktezahl = punktezahl;
+
+
     }
 }
