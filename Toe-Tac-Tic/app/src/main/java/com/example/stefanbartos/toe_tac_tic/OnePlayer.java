@@ -6,12 +6,6 @@ import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.os.Bundle;
-<<<<<<< HEAD
-import android.os.Handler;
-import android.preference.Preference;
-import android.preference.PreferenceActivity;
-=======
->>>>>>> origin/master
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -36,7 +30,6 @@ public class OnePlayer extends AppCompatActivity {
     Button bottomright;
     Player player1;
     Player ai;
-
     Character[][] botarray = new Character[3][3];
     String playername;
     String name = "";
@@ -46,11 +39,8 @@ public class OnePlayer extends AppCompatActivity {
     TextView playergameswontv;
     TextView ainametv;
     TextView playernametv;
-<<<<<<< HEAD
     TimeThread t = new TimeThread();
-=======
 
->>>>>>> origin/master
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,92 +87,56 @@ public class OnePlayer extends AppCompatActivity {
         topleft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    playerTurn(topleft);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                playerTurn(topleft);
 
             }
         });
         top.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    playerTurn(top);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                playerTurn(top);
             }
         });
         topright.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    playerTurn(topright);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                playerTurn(topright);
             }
         });
         midleft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    playerTurn(midleft);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                playerTurn(midleft);
             }
         });
         mid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    playerTurn(mid);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                playerTurn(mid);
             }
         });
         midright.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    playerTurn(midright);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                playerTurn(midright);
             }
         });
         bottomleft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    playerTurn(bottomleft);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                playerTurn(bottomleft);
             }
         });
         bottom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    playerTurn(bottom);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                playerTurn(bottom);
             }
         });
         bottomright.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    playerTurn(bottomright);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                playerTurn(bottomright);
             }
         });
         for (int i = 0; i < botarray.length; i++) {
@@ -204,18 +158,6 @@ public class OnePlayer extends AppCompatActivity {
         playernametv = (TextView) findViewById(R.id.playernametv);
 
     }
-<<<<<<< HEAD
-        public void playerTurn(Button button) throws InterruptedException {
-            button.setBackgroundResource(R.drawable.x);
-            button.setEnabled(false);
-            findcorrectBotArray(button);
-
-            if (checkifwon() == false) {
-                if(checkiffull()==false) {
-                    Thread.sleep(500);
-                    bot();
-                }
-=======
 
     public void playerTurn(Button button) {
         button.setBackgroundResource(R.drawable.x);
@@ -223,26 +165,17 @@ public class OnePlayer extends AppCompatActivity {
         findcorrectBotArray(button);
         if (!checkifwon()) {
             if (!checkiffull()) {
-                bot();
->>>>>>> origin/master
+                try {
+                    bot();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
             }
         }
         checkifwon();
     }
 
-    private void timeToWait() {
-        long endTime = System.currentTimeMillis() + 1000;
-        while (System.currentTimeMillis() < endTime)
-        {
-            synchronized (this){
-                try{
-                    wait(endTime-System.currentTimeMillis());
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
 
     private boolean checkiffull() {
         for (int i = 0; i < botarray.length; i++) {
