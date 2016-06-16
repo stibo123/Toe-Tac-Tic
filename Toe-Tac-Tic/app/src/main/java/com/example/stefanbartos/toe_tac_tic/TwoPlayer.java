@@ -8,7 +8,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 public class TwoPlayer extends AppCompatActivity {
 
@@ -22,9 +25,11 @@ public class TwoPlayer extends AppCompatActivity {
     private Button bot2;
     private Button bot3;
 
+    private TextView player1;
+
     private int clickCNT = 0;
     private int cnt = 1;
-    private String winner;
+    private String winner; //dfadffmfdk
 
     private String sign;
 
