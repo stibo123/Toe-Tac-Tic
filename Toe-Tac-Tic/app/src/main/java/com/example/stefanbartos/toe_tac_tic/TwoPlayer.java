@@ -48,6 +48,7 @@ public class TwoPlayer extends AppCompatActivity {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         final LinearLayout vDialog = (LinearLayout) getLayoutInflater().inflate(R.layout.dialog, null);
         alert.setView(vDialog);
+        alert.setCancelable(false);
         alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -56,11 +57,10 @@ public class TwoPlayer extends AppCompatActivity {
 
 
                 player = new Player(e1.getText().toString(), 0);
-                player = new Player(e2.getText().toString(), 0);                                    //unnötiges anlegen von Player, müssen bei Punkteberechung angelegt werden wegen Felder Name und Punkte
+                player = new Player(e2.getText().toString(), 0);                                    //unnï¿½tiges anlegen von Player, mï¿½ssen bei Punkteberechung angelegt werden wegen Felder Name und Punkte
             }
         });
 
-        alert.setNegativeButton("Cancel", null);
         alert.show();
     }
 

@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteStatement;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
@@ -45,6 +46,7 @@ public class OnePlayer extends AppCompatActivity{
     TextView playergameswontv;
     TextView ainametv;
     TextView playernametv;
+    TimeThread t = new TimeThread();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,8 +68,7 @@ public class OnePlayer extends AppCompatActivity{
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         name = editText.getText().toString();
-                        if(name.equals(""))
-                        {
+                        if (name.equals("")) {
                             name = "Player1";
                         }
                         player1 = new Player(name, 0);
@@ -92,56 +93,92 @@ public class OnePlayer extends AppCompatActivity{
         topleft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                playerTurn(topleft);
+                try {
+                    playerTurn(topleft);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
 
             }
         });
         top.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                playerTurn(top);
+                try {
+                    playerTurn(top);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         });
         topright.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                playerTurn(topright);
+                try {
+                    playerTurn(topright);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         });
         midleft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                playerTurn(midleft);
+                try {
+                    playerTurn(midleft);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         });
         mid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                playerTurn(mid);
+                try {
+                    playerTurn(mid);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         });
         midright.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                playerTurn(midright);
+                try {
+                    playerTurn(midright);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         });
         bottomleft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                playerTurn(bottomleft);
+                try {
+                    playerTurn(bottomleft);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         });
         bottom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                playerTurn(bottom);
+                try {
+                    playerTurn(bottom);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         });
         bottomright.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                playerTurn(bottomright);
+                try {
+                    playerTurn(bottomright);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         });
         for(int i = 0;i<botarray.length;i++)
@@ -163,12 +200,13 @@ public class OnePlayer extends AppCompatActivity{
         ainametv = (TextView) findViewById(R.id.ainametv);
         ainametv.setText(ainame);
         playernametv = (TextView) findViewById(R.id.playernametv);
+
     }
-        public void playerTurn(Button button)
-        {
+        public void playerTurn(Button button) throws InterruptedException {
             button.setBackgroundResource(R.drawable.x);
             button.setEnabled(false);
             findcorrectBotArray(button);
+
             if (checkifwon() == false) {
                 if(checkiffull()==false) {
                     bot();
@@ -176,6 +214,20 @@ public class OnePlayer extends AppCompatActivity{
             }
             checkifwon();
         }
+
+    private void timeToWait() {
+        long endTime = System.currentTimeMillis() + 1000;
+        while (System.currentTimeMillis() < endTime)
+        {
+            synchronized (this){
+                try{
+                    wait(endTime-System.currentTimeMillis());
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 
     private boolean checkiffull() {
         for(int i = 0;i<botarray.length;i++)
@@ -343,15 +395,13 @@ public class OnePlayer extends AppCompatActivity{
         }
     }
 
-    private void bot() {
+    private void bot() throws InterruptedException {
         Button button = null;
         while (button == null) {
             int a = ((int) (Math.random() * 3));
             int b = ((int) (Math.random() * 3));
             button = findcorrectButton(a, b);
             if (button.isEnabled()) {
-                //TimeThread t = new TimeThread();
-               // t.start();
                 button.setBackgroundResource(R.drawable.o);
                 button.setEnabled(false);
                 botarray[a][b] = 'O';
