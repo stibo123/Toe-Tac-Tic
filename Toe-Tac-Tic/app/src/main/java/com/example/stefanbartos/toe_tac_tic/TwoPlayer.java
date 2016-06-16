@@ -49,8 +49,6 @@ public class TwoPlayer extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 EditText e1 = (EditText) vDialog.findViewById(R.id.editTextP1Name);
                 EditText e2 = (EditText) vDialog.findViewById(R.id.editTextP2Name);
-
-
                 player = new Player(e1.getText().toString(), 0);
                 player = new Player(e2.getText().toString(), 0);                                    //unn�tiges anlegen von Player, m�ssen bei Punkteberechung angelegt werden wegen Felder Name und Punkte
             }
