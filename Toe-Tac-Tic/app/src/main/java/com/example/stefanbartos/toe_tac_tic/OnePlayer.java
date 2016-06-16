@@ -209,6 +209,7 @@ public class OnePlayer extends AppCompatActivity{
 
             if (checkifwon() == false) {
                 if(checkiffull()==false) {
+                    Thread.sleep(500);
                     bot();
                 }
             }
