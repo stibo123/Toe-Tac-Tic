@@ -28,24 +28,28 @@ public class OnePlayer extends AppCompatActivity {
     Button bottomleft;
     Button bottom;
     Button bottomright;
+
     Player player1;
     Player ai;
+
     Character[][] botarray = new Character[3][3];
+
     String playername;
     String name = "";
+
     SharedPreferences prefs;
     String ainame = "";
     TextView aigameswontv;
     TextView playergameswontv;
     TextView ainametv;
     TextView playernametv;
-    TimeThread t = new TimeThread();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tictactoe_layout);
         ActionBar actionBar = getSupportActionBar();
+        assert actionBar != null;
         actionBar.hide();
         showDialog();
         initVariables();
@@ -166,6 +170,7 @@ public class OnePlayer extends AppCompatActivity {
         if (!checkifwon()) {
             if (!checkiffull()) {
                 try {
+                    Thread.sleep(700);
                     bot();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
