@@ -23,7 +23,10 @@
         <activity android:name=".BTGame" />
         <activity android:name=".TwoPlayer" />
         <activity android:name=".OnePlayer" />
-        <activity android:name=".Preference_Activity" android:label="Einstellungen"></activity>
+        <activity
+            android:name=".Preference_Activity"
+            android:label="Einstellungen" />
+        <activity android:name=".BTClient"></activity>
     </application>
 
 </manifest>
