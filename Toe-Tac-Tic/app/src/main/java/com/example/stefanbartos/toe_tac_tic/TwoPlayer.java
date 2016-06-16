@@ -1,13 +1,9 @@
 package com.example.stefanbartos.toe_tac_tic;
 
 import android.app.AlertDialog;
-import android.content.ContentValues;
 import android.content.DialogInterface;
-import android.database.sqlite.SQLiteDatabase;
-import android.location.Location;
-import android.location.LocationManager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -44,7 +40,7 @@ public class TwoPlayer extends AppCompatActivity {
         selection();
     }
 
-    public void playerInput(){
+    public void playerInput() {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         final LinearLayout vDialog = (LinearLayout) getLayoutInflater().inflate(R.layout.dialog, null);
         alert.setView(vDialog);
@@ -54,8 +50,6 @@ public class TwoPlayer extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 EditText e1 = (EditText) vDialog.findViewById(R.id.editTextP1Name);
                 EditText e2 = (EditText) vDialog.findViewById(R.id.editTextP2Name);
-
-
                 player = new Player(e1.getText().toString(), 0);
                 player = new Player(e2.getText().toString(), 0);                                    //unn�tiges anlegen von Player, m�ssen bei Punkteberechung angelegt werden wegen Felder Name und Punkte
             }
@@ -63,7 +57,6 @@ public class TwoPlayer extends AppCompatActivity {
 
         alert.show();
     }
-
 
 
     public void initField() {
@@ -78,12 +71,12 @@ public class TwoPlayer extends AppCompatActivity {
         bot3 = (Button) findViewById(R.id.bottomright);
     }
 
-    public void selection(){
+    public void selection() {
         top1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 playerTurn(top1);
-                clickCNT+=1;
+                clickCNT += 1;
             }
         });
 
@@ -91,7 +84,7 @@ public class TwoPlayer extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 playerTurn(top2);
-                clickCNT+=1;
+                clickCNT += 1;
             }
         });
 
@@ -99,7 +92,7 @@ public class TwoPlayer extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 playerTurn(top3);
-                clickCNT+=1;
+                clickCNT += 1;
             }
         });
 
@@ -107,7 +100,7 @@ public class TwoPlayer extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 playerTurn(mid1);
-                clickCNT+=1;
+                clickCNT += 1;
             }
         });
 
@@ -115,7 +108,7 @@ public class TwoPlayer extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 playerTurn(mid2);
-                clickCNT+=1;
+                clickCNT += 1;
             }
         });
 
@@ -123,7 +116,7 @@ public class TwoPlayer extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 playerTurn(mid3);
-                clickCNT+=1;
+                clickCNT += 1;
             }
         });
 
@@ -131,7 +124,7 @@ public class TwoPlayer extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 playerTurn(bot1);
-                clickCNT+=1;
+                clickCNT += 1;
             }
         });
 
@@ -139,7 +132,7 @@ public class TwoPlayer extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 playerTurn(bot2);
-                clickCNT+=1;
+                clickCNT += 1;
             }
         });
 
@@ -147,7 +140,7 @@ public class TwoPlayer extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 playerTurn(bot3);
-                clickCNT+=1;
+                clickCNT += 1;
             }
         });
     }
@@ -162,8 +155,7 @@ public class TwoPlayer extends AppCompatActivity {
                 cnt += 1;
             }
             return sign;
-        }
-        else{
+        } else {
             Toast.makeText(getApplicationContext(), "Spieler " + winner + "hat gewonnen", Toast.LENGTH_LONG).show();
         }
         return null;

@@ -25,6 +25,11 @@ public class BTGame extends AppCompatActivity {
 
 
 
+<<<<<<< HEAD
+=======
+    private BluetoothAdapter mBluetoothAdapter;
+
+>>>>>>> origin/master
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,12 +45,12 @@ public class BTGame extends AppCompatActivity {
         }
     }
 
-    public void initBluetoothAdapter(){
+    public void initBluetoothAdapter() {
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        if (mBluetoothAdapter == null){
+        if (mBluetoothAdapter == null) {
             Toast.makeText(getApplicationContext(), "Device does not support Bluetooth", Toast.LENGTH_SHORT).show();
-            }
-        if (!mBluetoothAdapter.isEnabled()){
+        }
+        if (!mBluetoothAdapter.isEnabled()) {
             Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableBtIntent, 1);
         }
@@ -53,6 +58,7 @@ public class BTGame extends AppCompatActivity {
         mBluetoothAdapter.setName("ToeTacTic");
         mBluetoothAdapter.startDiscovery();
     }
+<<<<<<< HEAD
 
 
     @Override
@@ -68,5 +74,8 @@ public class BTGame extends AppCompatActivity {
     }
 }
 
+=======
+}
+>>>>>>> origin/master
 
 

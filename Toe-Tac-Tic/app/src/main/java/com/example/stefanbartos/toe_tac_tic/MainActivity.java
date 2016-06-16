@@ -1,10 +1,9 @@
 package com.example.stefanbartos.toe_tac_tic;
 
-import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void initButtons(){
+    public void initButtons() {
         buttonOnePlayer = (Button) findViewById(R.id.buttonOnePlayer);
         buttonTwoPlayer = (Button) findViewById(R.id.buttonTwoPlayer);
         buttonBTGame = (Button) findViewById(R.id.buttonBTGame);
@@ -45,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         buttonTwoPlayer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent TPintent = new Intent(getApplicationContext(),TwoPlayer.class);
+                Intent TPintent = new Intent(getApplicationContext(), TwoPlayer.class);
                 startActivity(TPintent);
             }
         });
@@ -77,10 +76,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        switch (id)
-        {
+        switch (id) {
             case R.id.settings:
-            startActivity(new Intent(this, Preference_Activity.class));
+                startActivity(new Intent(this, Preference_Activity.class));
                 return true;
         }
         return super.onOptionsItemSelected(item);
