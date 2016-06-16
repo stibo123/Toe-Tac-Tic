@@ -22,27 +22,22 @@ public class BTGame extends AppCompatActivity {
     private BluetoothAdapter mBluetoothAdapter;
     BluetoothSocket bluetoothSocket = null;
     private BluetoothServerSocket bluetoothServerSocket = null;
+    UUID uuid;
+    String myName;
+    //uuid:ccd95e70-33ba-11e6-bdf4-0800200c9a66
 
 
-
-<<<<<<< HEAD
-=======
-    private BluetoothAdapter mBluetoothAdapter;
-
->>>>>>> origin/master
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_btgame);
         initBluetoothAdapter();
-        connectToOtherDevice();
+
     }
 
-    private void connectToOtherDevice() {
-        if(bluetoothSocket==null)
-        {
 
-        }
+    private void connectToOtherDevice() {
+
     }
 
     public void initBluetoothAdapter() {
@@ -55,11 +50,11 @@ public class BTGame extends AppCompatActivity {
             startActivityForResult(enableBtIntent, 1);
         }
         bluetoothName = mBluetoothAdapter.getName();
+        uuid = UUID.fromString("ec79da00-853f-11e4-b4a9-0800200c9a66");
+        myName = uuid.toString();
         mBluetoothAdapter.setName("ToeTacTic");
         mBluetoothAdapter.startDiscovery();
     }
-<<<<<<< HEAD
-
 
     @Override
     public void onBackPressed() {
@@ -72,10 +67,24 @@ public class BTGame extends AppCompatActivity {
         mBluetoothAdapter.setName(bluetoothName);
         super.onStop();
     }
-}
 
-=======
+    private class connectToOtherDevice extends Thread
+    {
+            bluetoothServerSocket = mBluetoothAdapter.listenUsingInsecureRfcommWithServiceRecord(myName,uuid);
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+        if(bluetoothServerSocket==null)
+        {
+            try {
+                bluetoothSocket = bluetoothServerSocket.accept();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            BluetoothDevice remoteDevice = bluetoothSocket.getRemoteDevice();
+        }
+    }
+
 }
->>>>>>> origin/master
 
 
