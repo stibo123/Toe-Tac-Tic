@@ -1,5 +1,6 @@
 package com.example.stefanbartos.toe_tac_tic;
 
+import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -52,9 +53,23 @@ public class MainActivity extends AppCompatActivity {
         buttonBTGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Bluetooth eingeschaltet? ;)", Toast.LENGTH_LONG).show();
-                Intent BTGame = new Intent(getApplicationContext(), BTGame.class);
-                startActivity(BTGame);
+                boolean waitingforbluetooth = false;
+                BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+                if(!bluetoothAdapter.isEnabled())
+                {
+                    Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                    startActivityForResult(enableIntent, 2);
+                }
+                if(bluetoothAdapter == null)
+                {
+                    Toast.makeText(getApplicationContext(), "Dieses Gerät wird nicht unterstützt!", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                if (bluetoothAdapter.isEnabled()) {
+                        Intent BTGame = new Intent(getApplicationContext(), BluetoothGame.class);
+                        startActivity(BTGame);
+                }
+
             }
         });
 

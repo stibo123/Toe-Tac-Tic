@@ -20,13 +20,12 @@
         </activity>
         <activity android:name=".tictactoe_layout" />
         <activity android:name=".Stats" />
-        <activity android:name=".BTGame" />
         <activity android:name=".TwoPlayer" />
         <activity android:name=".OnePlayer" />
         <activity
             android:name=".Preference_Activity"
             android:label="Einstellungen" />
-        <activity android:name=".BTClient"></activity>
+        <activity android:name=".BluetoothGame"></activity>
     </application>
 
 </manifest>

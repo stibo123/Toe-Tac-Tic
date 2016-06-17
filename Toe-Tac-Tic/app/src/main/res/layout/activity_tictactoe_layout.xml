@@ -7,7 +7,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.stefanbartos.toe_tac_tic.tictactoe_layout">
+    tools:context="com.example.stefanbartos.toe_tac_tic.tictactoe_layout"
+    android:visibility="visible">
 
     <Button
         android:layout_width="115dp"
@@ -18,7 +19,9 @@
         android:layout_toStartOf="@+id/top"
         android:background="@drawable/button_border"
         android:layout_alignParentEnd="false"
-        android:layout_alignParentStart="false" />
+        android:layout_alignParentStart="false"
+        android:visibility="visible"
+        tools:ignore="RtlCompat" />
 
     <Button
         android:layout_width="115dp"
@@ -29,7 +32,9 @@
         android:layout_alignStart="@+id/mid"
         android:background="@drawable/button_border"
         android:layout_alignParentEnd="false"
-        android:layout_alignParentStart="false" />
+        android:layout_alignParentStart="false"
+        android:visibility="visible"
+        tools:ignore="RtlCompat" />
 
     <Button
         android:layout_width="115dp"
@@ -40,7 +45,9 @@
         android:layout_toEndOf="@+id/top"
         android:background="@drawable/button_border"
         android:layout_alignParentEnd="false"
-        android:layout_alignParentStart="false" />
+        android:layout_alignParentStart="false"
+        android:visibility="visible"
+        tools:ignore="RtlCompat" />
 
     <Button
         android:layout_width="115dp"
@@ -51,7 +58,9 @@
         android:layout_alignStart="@+id/topleft"
         android:background="@drawable/button_border"
         android:layout_alignParentEnd="false"
-        android:layout_alignParentStart="false" />
+        android:layout_alignParentStart="false"
+        android:visibility="visible"
+        tools:ignore="RtlCompat" />
 
     <Button
         android:layout_width="115dp"
@@ -61,7 +70,9 @@
         android:layout_centerHorizontal="true"
         android:background="@drawable/button_border"
         android:layout_alignParentEnd="false"
-        android:layout_alignParentStart="false" />
+        android:layout_alignParentStart="false"
+        android:visibility="visible"
+        tools:ignore="RtlCompat" />
 
     <Button
         android:layout_width="115dp"
@@ -72,7 +83,9 @@
         android:layout_alignStart="@+id/bottomright"
         android:background="@drawable/button_border"
         android:layout_alignParentEnd="false"
-        android:layout_alignParentStart="false" />
+        android:layout_alignParentStart="false"
+        android:visibility="visible"
+        tools:ignore="RtlCompat" />
 
     <Button
         android:layout_width="115dp"
@@ -83,7 +96,9 @@
         android:layout_alignStart="@+id/midleft"
         android:background="@drawable/button_border"
         android:layout_alignParentEnd="false"
-        android:layout_alignParentStart="false" />
+        android:layout_alignParentStart="false"
+        android:visibility="visible"
+        tools:ignore="RtlCompat" />
 
     <Button
         android:layout_width="115dp"
@@ -93,7 +108,9 @@
         android:layout_centerHorizontal="true"
         android:background="@drawable/button_border"
         android:layout_alignParentEnd="false"
-        android:layout_alignParentStart="false" />
+        android:layout_alignParentStart="false"
+        android:visibility="visible"
+        tools:ignore="RtlCompat" />
 
     <Button
         android:layout_width="115dp"
@@ -104,7 +121,9 @@
         android:layout_toEndOf="@+id/bottom"
         android:background="@drawable/button_border"
         android:layout_alignParentEnd="false"
-        android:layout_alignParentStart="false" />
+        android:layout_alignParentStart="false"
+        android:visibility="visible"
+        tools:ignore="RtlCompat" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -117,7 +136,8 @@
         android:layout_alignParentTop="true"
         android:textSize="30dp"
         android:layout_toStartOf="@+id/top"
-        android:layout_toLeftOf="@+id/top" />
+        android:layout_toLeftOf="@+id/top"
+        android:visibility="visible" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -127,7 +147,8 @@
         android:layout_toRightOf="@+id/top"
         android:layout_alignRight="@+id/topright"
         android:layout_alignEnd="@+id/topright"
-        android:textSize="20dp"/>
+        android:textSize="20dp"
+        android:visibility="visible" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -138,7 +159,8 @@
         android:layout_toRightOf="@+id/gamesplayed"
         android:layout_alignRight="@+id/top"
         android:layout_alignEnd="@+id/top"
-        android:textSize="20dp"/>
+        android:textSize="20dp"
+        android:visibility="visible" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -151,7 +173,8 @@
         android:layout_alignLeft="@+id/topright"
         android:layout_alignStart="@+id/topright"
         android:layout_alignTop="@+id/aigameswontv"
-        android:textSize="20dp"/>
+        android:textSize="20dp"
+        android:visibility="visible" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -164,6 +187,31 @@
         android:layout_alignRight="@+id/top"
         android:layout_alignEnd="@+id/top"
         android:layout_below="@+id/ainametv"
-        android:textSize="20dp"/>
+        android:textSize="20dp"
+        android:visibility="visible" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible"
+        android:id="@+id/LayoutLinear">
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:text="Player1"
+            android:id="@+id/buttonplayer1"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1" />
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:text="Player2"
+            android:id="@+id/buttonplayer2"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1" />
+    </LinearLayout>
 
 </RelativeLayout>
