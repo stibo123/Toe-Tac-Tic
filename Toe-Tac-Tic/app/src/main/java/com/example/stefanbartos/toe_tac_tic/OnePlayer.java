@@ -170,7 +170,6 @@ public class OnePlayer extends AppCompatActivity {
         if (!checkifwon()) {
             if (!checkiffull()) {
                 try {
-                    Thread.sleep(700);
                     bot();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -416,7 +415,6 @@ public class OnePlayer extends AppCompatActivity {
             db.setTransactionSuccessful();
             db.endTransaction();
         }
-
         super.onBackPressed();
     }
 
@@ -427,5 +425,4 @@ public class OnePlayer extends AppCompatActivity {
         stmt.bindLong(4, aipunktezahl);
         stmt.executeInsert();
     }
-
 }

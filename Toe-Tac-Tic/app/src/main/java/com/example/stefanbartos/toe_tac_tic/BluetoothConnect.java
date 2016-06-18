@@ -25,6 +25,7 @@ public class BluetoothConnect extends Thread{
     Context context;
 
     public BluetoothConnect(Context context1, BluetoothDevice bluetoothDevice){
+        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         context = context1;
         BluetoothSocket tmp = null;
         try {
@@ -36,7 +37,6 @@ public class BluetoothConnect extends Thread{
 
     public void run() {
         bluetoothAdapter.cancelDiscovery();
-
                 try {
                     bluetoothSocket.connect();
                 } catch (IOException e) {

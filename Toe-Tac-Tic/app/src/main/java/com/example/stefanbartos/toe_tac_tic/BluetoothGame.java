@@ -8,6 +8,9 @@ import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteStatement;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -24,6 +27,8 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Set;
 
@@ -35,22 +40,25 @@ public class BluetoothGame extends AppCompatActivity {
     int bytes;
     BluetoothDevice device;
 
-    final OutputStream outputStream = new OutputStream() {
+    OutputStream outputStream = new OutputStream() {
         @Override
         public void write(int oneByte) throws IOException {
             this.write(buffer);
             return;
         }
     };
-    final InputStream inputStream = new InputStream() {
+    InputStream inputStream = new InputStream() {
+        @TargetApi(Build.VERSION_CODES.KITKAT)
         @Override
         public int read(){
             try {
                 bytes = this.read(buffer);
+                String str = new String(buffer, StandardCharsets.UTF_8);
+                getButtonString = str;
             } catch (IOException e) {
                 return 0;
             }
-            return 0;
+            return 1;
         }
     };
 
@@ -91,7 +99,9 @@ public class BluetoothGame extends AppCompatActivity {
     String player2turnString = "Dein Zug: O";
     boolean player1turn = false;
     Character[][] botarray = new Character[3][3];
+
     Button buttontosend;
+    Button buttonfromp2;
 
     ArrayAdapter<BluetoothDevice> pairedDeviceAdapter;
     ArrayList<BluetoothDevice> pairedDeviceArrayList;
@@ -99,6 +109,12 @@ public class BluetoothGame extends AppCompatActivity {
     AlertDialog.Builder alertDialog;
     AlertDialog OptionDialog;
 
+    String textforsend = "";
+    String getButtonString = "";
+
+    boolean gameEnd = false;
+    BluetoothSocket1 socket1;
+    BluetoothConnect bluetoothConnect;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,24 +146,85 @@ public class BluetoothGame extends AppCompatActivity {
     }
 
     private void player1play(android.bluetooth.BluetoothSocket socket) {
-        setButtonsVisible();
-        showplayerturn.setText(player1turnString);
-        while (player1turn==false)
-        {
+        while(gameEnd==false) {
+            setButtonsVisible();
+            showplayerturn.setText(player1turnString);
+            while (player1turn == false) {
 
+            }
+            try {
+                buttontosend.setBackgroundResource(R.drawable.x);
+                findcorrectBotArray(buttontosend, 'X');
+                textforsend = buttontosend.getId() + " ";
+                buffer = textforsend.getBytes();
+                outputStream.write(buffer);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            if (!checkiffull()) {
+                if (!checkifwon()) {
+                    int code = 0;
+                    showplayerturn.setText("Gegner: O");
+                    while (getButtonString.equals("")) {
+                        try {
+                            code = inputStream.read();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    if (code == 1) {
+                        buttonfromp2.setId(Integer.parseInt(getButtonString));
+                        buttonfromp2.setEnabled(false);
+                        buttonfromp2.setBackgroundResource(R.drawable.o);
+                        findcorrectBotArray(buttonfromp2, 'O');
+                    }
+                }
+                player1turn = false;
+            }
+            checkifwon();
         }
-        try {
-
-            //outputStream.write(new OutputStreamWriter(new Ou));
-        } catch (IOException e) {
-            e.printStackTrace();
         }
-
-    }
 
     private void player2play(android.bluetooth.BluetoothSocket socket) {
-        setButtonsVisible();
+        while(gameEnd==false) {
+            setButtonsVisible();
+            player1turn = true;
+            if (!checkiffull()) {
+                if (!checkifwon()) {
+                    int code = 0;
+                    showplayerturn.setText("Gegner: X");
+                    while (getButtonString.equals("")) {
+                        try {
+                            code = inputStream.read();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    if (code == 1) {
+                        buttonfromp2.setId(Integer.parseInt(getButtonString));
+                        buttonfromp2.setEnabled(false);
+                        buttonfromp2.setBackgroundResource(R.drawable.x);
+                        findcorrectBotArray(buttonfromp2, 'X');
+                    }
+                }
+            }
+            player1turn = false;
+            checkifwon();
+            showplayerturn.setText(player2turnString);
+            while (player1turn == false) {
 
+            }
+            try {
+                buttontosend.setBackgroundResource(R.drawable.o);
+                findcorrectBotArray(buttontosend, 'O');
+                textforsend = buttontosend.getId() + " ";
+                buffer = textforsend.getBytes();
+                outputStream.write(buffer);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
     }
     private void setButtonsVisible() {
         player1tvname.setVisibility(View.VISIBLE);
@@ -217,7 +294,6 @@ public class BluetoothGame extends AppCompatActivity {
                 if(player1turn==false) {
                     player1turn = true;
                     buttontosend = topleft;
-                    findcorrectBotArray(topleft);
                     topleft.setEnabled(false);
                 }
             }
@@ -228,8 +304,77 @@ public class BluetoothGame extends AppCompatActivity {
                 if(player1turn==false) {
                     player1turn = true;
                     buttontosend = top;
-                    findcorrectBotArray(top);
                     top.setEnabled(false);
+                }
+            }
+        });
+        topright.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(player1turn==false) {
+                    player1turn = true;
+                    buttontosend = topright;
+                    topright.setEnabled(false);
+                }
+            }
+        });
+        midleft.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(player1turn==false) {
+                    player1turn = true;
+                    buttontosend = midleft;
+                    midleft.setEnabled(false);
+                }
+            }
+        });
+        mid.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(player1turn==false) {
+                    player1turn = true;
+                    buttontosend = mid;
+                    mid.setEnabled(false);
+                }
+            }
+        });
+        midright.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(player1turn==false) {
+                    player1turn = true;
+                    buttontosend = midright;
+                    midright.setEnabled(false);
+                }
+            }
+        });
+        bottomleft.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (player1turn == false) {
+                    player1turn = true;
+                    buttontosend = bottomleft;
+                    bottomleft.setEnabled(false);
+                }
+            }
+        });
+        bottom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(player1turn==false) {
+                    player1turn = true;
+                    buttontosend = bottom;
+                    bottom.setEnabled(false);
+                }
+            }
+        });
+        bottomright.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(player1turn==false) {
+                    player1turn = true;
+                    buttontosend = bottomright;
+                    bottomright.setEnabled(false);
                 }
             }
         });
@@ -263,7 +408,8 @@ public class BluetoothGame extends AppCompatActivity {
                 buttonplayer2.setEnabled(false);
                 buttonplayer1.setEnabled(false);
                 dialog = ProgressDialog.show(BluetoothGame.this, "Wartet...", "Wartet auf Verbindung...", false, false);
-                new Thread(new BluetoothSocket1(getApplicationContext())).start();
+                socket1 = new BluetoothSocket1(getApplicationContext());
+                socket1.start();
             }
         });
         buttonplayer2.setOnClickListener(new View.OnClickListener() {
@@ -279,63 +425,69 @@ public class BluetoothGame extends AppCompatActivity {
     }
 
     private void findDevices() {
+        Intent i = new Intent(this, findBTDevices.class);
+        startActivity(i);
+        /*
         Set<BluetoothDevice> pairedDevices = adapter.getBondedDevices();
-        if (pairedDevices.size() > 0) {
-            pairedDeviceArrayList = new ArrayList<BluetoothDevice>();
+    if(pairedDevices.size()>0){
+        pairedDeviceArrayList = new ArrayList<BluetoothDevice>();
 
-            for (BluetoothDevice device : pairedDevices) {
-                pairedDeviceArrayList.add(device);
-            }
-            alertDialog = new AlertDialog.Builder(BluetoothGame.this);
-            LayoutInflater inflater = getLayoutInflater();
-            View convertView = (View) inflater.inflate(R.layout.activity_stats, null);
-            alertDialog.setView(convertView);
-            alertDialog.setTitle("BluetoothScan");
-            ListView lv = (ListView) convertView.findViewById(R.id.listView);
-
-            pairedDeviceAdapter = new ArrayAdapter<BluetoothDevice>(this, android.R.layout.simple_list_item_1, pairedDeviceArrayList);
-            lv.setAdapter(pairedDeviceAdapter);
-            pairedDeviceAdapter.notifyDataSetChanged();
-            lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view,
-                                        int position, long id) {
-                    BluetoothDevice device = (BluetoothDevice) parent.getItemAtPosition(position);
-                    new Thread(new BluetoothConnect(getApplicationContext(), device)).start();
-                }
-            });
-            alertDialog.show();
+        for (BluetoothDevice device : pairedDevices) {
+            pairedDeviceArrayList.add(device);
         }
-    }
+        alertDialog = new AlertDialog.Builder(this.getApplicationContext());
+        LayoutInflater inflater = getLayoutInflater();
+        View convertView = (View) inflater.inflate(R.layout.activity_stats, null);
+        alertDialog.setView(convertView);
+        alertDialog.setTitle("BluetoothScan");
+        ListView lv = (ListView) convertView.findViewById(R.id.listView);
 
-    private void findcorrectBotArray(Button button) {
+        pairedDeviceAdapter = new ArrayAdapter<BluetoothDevice>(this, android.R.layout.simple_list_item_1, pairedDeviceArrayList);
+        lv.setAdapter(pairedDeviceAdapter);
+        pairedDeviceAdapter.notifyDataSetChanged();
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                device = (BluetoothDevice) parent.getItemAtPosition(position);
+                bluetoothConnect = new BluetoothConnect(getApplicationContext(), device);
+                bluetoothConnect.start();
+            }
+        });
+        alertDialog.show();
+    }
+         */
+        }
+
+
+    private void findcorrectBotArray(Button button, Character character) {
         if (button == topleft) {
-            botarray[0][0] = 'X';
+            botarray[0][0] = character;
         }
         if (button == top) {
-            botarray[0][1] = 'X';
+            botarray[0][1] = character;
         }
         if (button == topright) {
-            botarray[0][2] = 'X';
+            botarray[0][2] = character;
         }
         if (button == midleft) {
-            botarray[1][0] = 'X';
+            botarray[1][0] = character;
         }
         if (button == mid) {
-            botarray[1][1] = 'X';
+            botarray[1][1] = character;
         }
         if (button == midright) {
-            botarray[1][2] = 'X';
+            botarray[1][2] = character;
         }
         if (button == bottomleft) {
-            botarray[2][0] = 'X';
+            botarray[2][0] = character;
         }
         if (button == bottom) {
-            botarray[2][1] = 'X';
+            botarray[2][1] = character;
         }
         if (button == bottomright) {
-            botarray[2][2] = 'X';
+            botarray[2][2] = character;
         }
     }
     private boolean checkiffull() {
@@ -464,6 +616,36 @@ public class BluetoothGame extends AppCompatActivity {
                 botarray[i][o] = 'a';
             }
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        gameEnd = true;
+        inputStream = null;
+        outputStream = null;
+        adapter = null;
+        device = null;
+        DatabaseHelper databaseHelper = new DatabaseHelper(this);
+        SQLiteDatabase db = databaseHelper.getWritableDatabase();
+        final SQLiteStatement stmt = db.compileStatement(Schemaklasse.STMT_INSERT);
+        db.beginTransaction();
+        try {
+            insertScore(stmt, player1.getName(), player2.getName(), player1.getPunktezahl(), player2.getPunktezahl());
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            db.setTransactionSuccessful();
+            db.endTransaction();
+        }
+        super.onBackPressed();
+    }
+
+    private void insertScore(SQLiteStatement stmt, String player1name, String ainame, int player1punktezahl, int aipunktezahl) {
+        stmt.bindString(1, player1name);
+        stmt.bindString(2, ainame);
+        stmt.bindLong(3, player1punktezahl);
+        stmt.bindLong(4, aipunktezahl);
+        stmt.executeInsert();
     }
 
 }
