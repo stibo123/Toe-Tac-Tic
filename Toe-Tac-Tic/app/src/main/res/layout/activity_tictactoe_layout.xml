@@ -212,6 +212,20 @@
             android:id="@+id/buttonplayer2"
             android:layout_gravity="center_horizontal"
             android:layout_weight="1" />
+
     </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvshowturn"
+        android:layout_below="@+id/bottom"
+        android:layout_alignParentBottom="true"
+        android:visibility="invisible"
+        android:textSize="40dp"
+        android:layout_alignRight="@+id/bottomright"
+        android:layout_alignEnd="@+id/bottomright"
+        android:layout_alignLeft="@+id/bottomleft"
+        android:layout_alignStart="@+id/bottomleft" />
 
 </RelativeLayout>

@@ -1,77 +1,56 @@
 package com.example.stefanbartos.toe_tac_tic;
 
-import android.content.Intent;
-import android.util.Log;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.UUID;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+
+import java.io.IOException;
+import java.net.ConnectException;
+import java.util.UUID;
 
 /**
  * Created by StefanBartos on 16.06.16.
  */
 public class BluetoothConnect extends Thread{
-    private static final boolean D = true;
-    // Name for the SDP record when creating server socket
-    private static  String NAME = "";
-    // Unique UUID for this application
-    private static final UUID MY_UUID = UUID.fromString("fa87c0d0-afac-11de-8a39-0800200c9a66");
-    // Member fields
-    private BluetoothAdapter mAdapter = null;
-    private BluetoothServerSocket mmServerSocket = null;
+    public BluetoothSocket bluetoothSocket;
+    public BluetoothDevice bluetoothDevice;
+    private static final UUID uuid = UUID.fromString("fa87c0d0-afac-11de-8a39-0800200c9a66");
     BluetoothGame bluetoothGame = new BluetoothGame();
-
-    private int mState;
-    // Constants that indicate the current connection state
-    public static final int STATE_NONE = 0;       // we're doing nothing
-    public static final int STATE_LISTEN = 1;     // now listening for incoming connections
-    public static final int STATE_CONNECTING = 2; // now initiating an outgoing connection
-    public static final int STATE_CONNECTED = 3;  // now connected to a remote device
-
+    BluetoothAdapter bluetoothAdapter;
     Context context;
 
-    public BluetoothConnect(Context context1){
-        mAdapter = BluetoothAdapter.getDefaultAdapter();
-        NAME = mAdapter.getName();
-        mState = STATE_NONE;
+    public BluetoothConnect(Context context1, BluetoothDevice bluetoothDevice){
         context = context1;
-        BluetoothServerSocket tmp = null;
-        // Create a new listening server socket
+        BluetoothSocket tmp = null;
         try {
-            tmp = mAdapter.listenUsingRfcommWithServiceRecord(NAME, MY_UUID);
+            tmp = bluetoothDevice.createRfcommSocketToServiceRecord(uuid);
         } catch (IOException e) {
         }
-        mmServerSocket = tmp;
+        bluetoothSocket = tmp;
     }
 
-        public void run() {
-            if(!mAdapter.isEnabled())
-            {
+    public void run() {
+        bluetoothAdapter.cancelDiscovery();
 
-            }
-            BluetoothSocket socket = null;
-            // Listen to the server socket if we're not connected
-            while (mState != STATE_CONNECTED) {
                 try {
-                    // This is a blocking call and will only return on a
-                    // successful connection or an exception
-                    socket = mmServerSocket.accept();
+                    bluetoothSocket.connect();
                 } catch (IOException e) {
-                    break;
+                    try {
+                        bluetoothSocket.close();
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
+                    return;
                 }
-                // If a connection was accepted
-                if (socket != null) {
-                    bluetoothGame.game(socket);
-                }
-            }
+
+                bluetoothGame.game(bluetoothSocket);
         }
 
-    }
+
+
+}
