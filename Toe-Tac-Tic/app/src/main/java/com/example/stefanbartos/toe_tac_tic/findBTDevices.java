@@ -44,9 +44,27 @@ public class findBTDevices extends AppCompatActivity {
         Intent discoverableIntent = new
                 Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
         startActivity(discoverableIntent);
-
         adapter = BluetoothAdapter.getDefaultAdapter();
         adapter.startDiscovery();
+
+        final BroadcastReceiver mReceiver = new BroadcastReceiver() {
+            public void onReceive(Context context, Intent intent) {
+                String action = intent.getAction();
+                if (BluetoothDevice.ACTION_FOUND.equals(action)) {
+                    BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+                    newDeviceArrayList.add(device);
+                    newDeviceName.add(device.getName());
+                    newDeviceAdapter.notifyDataSetChanged();
+                }
+                else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
+                    if(newDeviceArrayList.isEmpty()) {
+                        Toast.makeText(findBTDevices.this, "Keine neuen Geräte gefunden! :(", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        };
+        IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
+        registerReceiver(mReceiver, filter);
 
         Set<BluetoothDevice> pairedDevices = adapter.getBondedDevices();
         if (pairedDevices.size() > 0) {
@@ -69,6 +87,7 @@ public class findBTDevices extends AppCompatActivity {
                 public void onItemClick(AdapterView<?> parent, View view,
                                         int position, long id) {
                     device = (BluetoothDevice) pairedDeviceArrayList.get(position);
+                    unregisterReceiver(mReceiver);
                     bluetoothConnect = new BluetoothConnect(getApplicationContext(), device);
                     bluetoothConnect.start();
                 }
@@ -86,29 +105,13 @@ public class findBTDevices extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
                 device = (BluetoothDevice) newDeviceArrayList.get(position);
+                unregisterReceiver(mReceiver);
                 bluetoothConnect = new BluetoothConnect(getApplicationContext(), device);
                 bluetoothConnect.start();
             }
         });
 
-        BroadcastReceiver mReceiver = new BroadcastReceiver() {
-            public void onReceive(Context context, Intent intent) {
-                String action = intent.getAction();
-                if (BluetoothDevice.ACTION_FOUND.equals(action)) {
-                    BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                    newDeviceArrayList.add(device);
-                    newDeviceName.add(device.getName());
-                    newDeviceAdapter.notifyDataSetChanged();
-                }
-                else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
-                    if(newDeviceArrayList.isEmpty()) {
-                        Toast.makeText(findBTDevices.this, "Keine neuen Geräte gefunden! :(", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }
-        };
-        IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
-        registerReceiver(mReceiver, filter);
+
     }
 }
 

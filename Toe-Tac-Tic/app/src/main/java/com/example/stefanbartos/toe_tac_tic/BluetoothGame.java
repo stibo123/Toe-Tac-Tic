@@ -126,8 +126,8 @@ public class BluetoothGame extends AppCompatActivity {
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     public void game(android.bluetooth.BluetoothSocket socket) {
         if (socket.isConnected()) {
-            dialog.dismiss();
-            //Toast.makeText(getApplicationContext(), "Verbunden mit: " + ,Toast.LENGTH_SHORT).show();
+            this.dialog.dismiss();
+            Toast.makeText(getApplicationContext(), "Verbunden mit: " + socket.getRemoteDevice().getName(),Toast.LENGTH_SHORT).show();
             if (buttonplayer1Pressed) {
                 player1.setName(adapter.getName());
                 player1play(socket);
@@ -407,6 +407,9 @@ public class BluetoothGame extends AppCompatActivity {
                 buttonplayer1Pressed = true;
                 buttonplayer2.setEnabled(false);
                 buttonplayer1.setEnabled(false);
+                Intent discoverableIntent = new
+                        Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
+                startActivity(discoverableIntent);
                 dialog = ProgressDialog.show(BluetoothGame.this, "Wartet...", "Wartet auf Verbindung...", false, false);
                 socket1 = new BluetoothSocket1(getApplicationContext());
                 socket1.start();
@@ -426,37 +429,6 @@ public class BluetoothGame extends AppCompatActivity {
     private void findDevices() {
         Intent i = new Intent(this, findBTDevices.class);
         startActivity(i);
-        /*
-        Set<BluetoothDevice> pairedDevices = adapter.getBondedDevices();
-    if(pairedDevices.size()>0){
-        pairedDeviceArrayList = new ArrayList<BluetoothDevice>();
-
-        for (BluetoothDevice device : pairedDevices) {
-            pairedDeviceArrayList.add(device);
-        }
-        alertDialog = new AlertDialog.Builder(this.getApplicationContext());
-        LayoutInflater inflater = getLayoutInflater();
-        View convertView = (View) inflater.inflate(R.layout.activity_stats, null);
-        alertDialog.setView(convertView);
-        alertDialog.setTitle("BluetoothScan");
-        ListView lv = (ListView) convertView.findViewById(R.id.listView);
-
-        pairedDeviceAdapter = new ArrayAdapter<BluetoothDevice>(this, android.R.layout.simple_list_item_1, pairedDeviceArrayList);
-        lv.setAdapter(pairedDeviceAdapter);
-        pairedDeviceAdapter.notifyDataSetChanged();
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-                device = (BluetoothDevice) parent.getItemAtPosition(position);
-                bluetoothConnect = new BluetoothConnect(getApplicationContext(), device);
-                bluetoothConnect.start();
-            }
-        });
-        alertDialog.show();
-    }
-         */
         }
 
 
