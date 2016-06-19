@@ -3,6 +3,7 @@ package com.example.stefanbartos.toe_tac_tic;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -29,14 +30,13 @@ public class TwoPlayer extends AppCompatActivity {
     private TextView points_p1;
     private TextView points_p2;
 
-    private Character[][] fieldArray;
+    private Character[][] fieldArray = new Character[3][3];
 
     private int clickCNT = 0;
     private int cnt = 1;
     private String winner;
 
-    String p1_name;
-    String p2_name;
+    private TextView showturn;
 
     private String sign;
 
@@ -47,7 +47,9 @@ public class TwoPlayer extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tictactoe_layout);
-
+        ActionBar actionBar = getSupportActionBar();
+        assert actionBar != null;
+        actionBar.hide();
         initField();
         playerInput();
         selection();
@@ -64,21 +66,18 @@ public class TwoPlayer extends AppCompatActivity {
                 EditText e1 = (EditText) vDialog.findViewById(R.id.editTextP1Name);
                 EditText e2 = (EditText) vDialog.findViewById(R.id.editTextP2Name);
 
-                p1_name = e1.getText() + "";
-                p2_name = e2.getText() + "";
-
                 playerObject1 = new Player(e1.getText().toString(), 0);
-                playerObject2 = new Player(e2.getText().toString(), 0);                                    //unn�tiges anlegen von Player, m�ssen bei Punkteberechung angelegt werden wegen Felder Name und Punkte
+                playerObject2 = new Player(e2.getText().toString(), 0);
+                player1Name.setText(playerObject1.getName());
+                player2Name.setText(playerObject2.getName());
+                points_p1.setText(playerObject1.getPunktezahl() + "");
+                points_p2.setText(playerObject2.getPunktezahl() + "");
             }
         });
         alert.setNegativeButton("CANCEL", null);
         alert.show();
 
-        playerObject1 = new Player(p1_name, 0);
-        playerObject2 = new Player(p2_name, 0);
 
-        player1Name.setText(p1_name);
-        player2Name.setText(p2_name);
     }
 
 
@@ -93,13 +92,23 @@ public class TwoPlayer extends AppCompatActivity {
         bot2 = (Button) findViewById(R.id.bottom);
         bot3 = (Button) findViewById(R.id.bottomright);
 
-        fieldArray = new Character[2][2];
 
         player1Name = (TextView) findViewById(R.id.ainametv);
         player2Name = (TextView) findViewById(R.id.playernametv);
 
         points_p1 = (TextView) findViewById(R.id.aigameswontv);
         points_p2 = (TextView) findViewById(R.id.playergameswontv);
+
+        showturn = (TextView) findViewById(R.id.tvshowturn);
+        showturn.setVisibility(View.VISIBLE);
+
+        for(int i = 0; i<fieldArray.length;i++)
+        {
+            for(int o = 0; o<fieldArray[0].length;o++)
+            {
+                fieldArray[i][o] = 'A';
+            }
+        }
     }
 
     public void selection() {
@@ -179,6 +188,7 @@ public class TwoPlayer extends AppCompatActivity {
     public String playerTurn(Button button) {
         if (clickCNT < 9) {
             if (cnt % 2 == 0) {
+                showturn.setText(playerObject2.getName() + ": O");
                 button.setBackgroundResource(R.drawable.x);
                 button.setEnabled(false);
                 if (button == top1) {
@@ -212,6 +222,7 @@ public class TwoPlayer extends AppCompatActivity {
                 checkifwon();
             } else {
                 button.setBackgroundResource(R.drawable.o);
+                showturn.setText(playerObject1.getName() + ": X");
                 if (button == top1) {
                     fieldArray[0][0] = 'O';
                 }
@@ -244,7 +255,7 @@ public class TwoPlayer extends AppCompatActivity {
             }
             return sign;
         } else {
-            Toast.makeText(getApplicationContext(), "Spieler " + winner + "hat gewonnen", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Spieler " + winner + " hat gewonnen", Toast.LENGTH_LONG).show();
         }
         return null;
     }

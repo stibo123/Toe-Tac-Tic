@@ -126,7 +126,7 @@ public class BluetoothGame extends AppCompatActivity {
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     public void game(android.bluetooth.BluetoothSocket socket) {
         if (socket.isConnected()) {
-            this.dialog.dismiss();
+            //this.dialog.dismiss();
             Toast.makeText(getApplicationContext(), "Verbunden mit: " + socket.getRemoteDevice().getName(),Toast.LENGTH_SHORT).show();
             if (buttonplayer1Pressed) {
                 player1.setName(adapter.getName());
