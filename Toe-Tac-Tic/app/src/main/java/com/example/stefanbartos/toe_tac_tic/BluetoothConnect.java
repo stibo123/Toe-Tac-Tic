@@ -18,7 +18,6 @@ import java.util.UUID;
  */
 public class BluetoothConnect extends Thread{
     public BluetoothSocket bluetoothSocket;
-    public BluetoothDevice bluetoothDevice;
     private static final UUID uuid = UUID.fromString("fa87c0d0-afac-11de-8a39-0800200c9a66");
     BluetoothGame bluetoothGame = new BluetoothGame();
     BluetoothAdapter bluetoothAdapter;
@@ -50,6 +49,7 @@ public class BluetoothConnect extends Thread{
 
                 bluetoothGame.game(bluetoothSocket);
         }
+
 
 
 

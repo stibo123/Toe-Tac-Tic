@@ -418,7 +418,6 @@ public class BluetoothGame extends AppCompatActivity {
                 buttonplayer2Pressed = true;
                 buttonplayer2.setEnabled(false);
                 buttonplayer1.setEnabled(false);
-                Toast.makeText(getApplicationContext(),"Sucht nach Geräte...", Toast.LENGTH_SHORT).show();
                 findDevices();
             }
         });
