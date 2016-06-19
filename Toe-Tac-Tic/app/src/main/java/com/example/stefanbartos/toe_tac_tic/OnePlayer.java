@@ -174,7 +174,6 @@ public class OnePlayer extends AppCompatActivity {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-
             }
         }
         checkifwon();

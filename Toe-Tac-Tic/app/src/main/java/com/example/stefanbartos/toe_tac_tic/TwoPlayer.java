@@ -11,7 +11,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
 
 public class TwoPlayer extends AppCompatActivity {
 
@@ -78,7 +77,7 @@ public class TwoPlayer extends AppCompatActivity {
         playerObject1 = new Player(p1_name, 0);
         playerObject2 = new Player(p2_name, 0);
 
-        player2Name.setText(p1_name);
+        player1Name.setText(p1_name);
         player2Name.setText(p2_name);
     }
 
@@ -339,6 +338,7 @@ public class TwoPlayer extends AppCompatActivity {
             points_p2.setText(playerObject2.getPunktezahl() + "");
         }
         Toast.makeText(getApplicationContext(), winner_name + " hat gewonnen!", Toast.LENGTH_SHORT).show();
+        winner = winner_name;
         top1.setBackgroundResource(R.drawable.button_border);
         top1.setEnabled(true);
         top2.setBackgroundResource(R.drawable.button_border);
