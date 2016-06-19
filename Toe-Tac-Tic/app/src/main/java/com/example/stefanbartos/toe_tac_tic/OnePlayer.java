@@ -170,12 +170,10 @@ public class OnePlayer extends AppCompatActivity {
         if (!checkifwon()) {
             if (!checkiffull()) {
                 try {
-                    Thread.sleep(700);
                     bot();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-
             }
         }
         checkifwon();
