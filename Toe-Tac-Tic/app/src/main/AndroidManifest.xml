@@ -27,6 +27,8 @@
             android:label="Einstellungen" />
         <activity android:name=".BluetoothGame"></activity>
         <activity android:name=".findBTDevices"></activity>
+        <activity android:name=".test"></activity>
+        <activity android:name=".test2"></activity>
     </application>
 
 </manifest>

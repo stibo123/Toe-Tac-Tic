@@ -45,9 +45,11 @@ public class BluetoothConnect extends Thread{
                     } catch (IOException e1) {
                         e1.printStackTrace();
                     }
-                    return;
                 }
-                bluetoothGame.game(bluetoothSocket);
+                //bluetoothGame.game(bluetoothSocket);
+            Intent i = new Intent(context, test2.class);
+            i.setFlags(i.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(i);
         }
 
 

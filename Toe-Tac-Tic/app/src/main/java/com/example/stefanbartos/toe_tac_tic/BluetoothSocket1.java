@@ -58,7 +58,9 @@ public class BluetoothSocket1 extends Thread{
                 }
 
                 if (socket != null) {
-                    bluetoothGame.game(socket);
+                    Intent i = new Intent(context, test.class);
+                    context.startActivity(i);
+                    //bluetoothGame.game(socket);
                 }
             }
         }
