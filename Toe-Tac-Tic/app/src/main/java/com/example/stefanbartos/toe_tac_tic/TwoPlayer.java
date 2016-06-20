@@ -76,8 +76,6 @@ public class TwoPlayer extends AppCompatActivity {
         });
         alert.setNegativeButton("CANCEL", null);
         alert.show();
-
-
     }
 
 
@@ -102,10 +100,8 @@ public class TwoPlayer extends AppCompatActivity {
         showturn = (TextView) findViewById(R.id.tvshowturn);
         showturn.setVisibility(View.VISIBLE);
 
-        for(int i = 0; i<fieldArray.length;i++)
-        {
-            for(int o = 0; o<fieldArray[0].length;o++)
-            {
+        for (int i = 0; i < fieldArray.length; i++) {
+            for (int o = 0; o < fieldArray[0].length; o++) {
                 fieldArray[i][o] = 'A';
             }
         }

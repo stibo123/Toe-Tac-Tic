@@ -2,9 +2,8 @@ package com.example.stefanbartos.toe_tac_tic;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteStatement;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
@@ -35,7 +34,7 @@ public class Stats extends AppCompatActivity {
         int Player2 = cursor.getColumnIndex(Schemaklasse.Player2);
         int player1score = cursor.getColumnIndex(Schemaklasse.player1score);
         int player2score = cursor.getColumnIndex(Schemaklasse.player2score);
-        while(cursor.moveToNext()) {
+        while (cursor.moveToNext()) {
             al.add(cursor.getString(Player1) + ":" + cursor.getString(Player2) + " " + cursor.getInt(player1score) + ":" + cursor.getInt(player2score));
         }
         cursor.close();
@@ -50,9 +49,9 @@ public class Stats extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        switch (id)
-        {
-            case R.id.deleteallstats: deleteallStats();
+        switch (id) {
+            case R.id.deleteallstats:
+                deleteallStats();
         }
         return super.onOptionsItemSelected(item);
     }

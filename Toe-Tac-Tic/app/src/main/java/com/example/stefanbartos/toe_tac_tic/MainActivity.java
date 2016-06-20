@@ -3,6 +3,7 @@ package com.example.stefanbartos.toe_tac_tic;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -45,8 +46,7 @@ public class MainActivity extends AppCompatActivity {
         buttonTwoPlayer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent TPintent = new Intent(getApplicationContext(), TwoPlayer.class);
-                startActivity(TPintent);
+                startActivity(new Intent(getApplicationContext(), TwoPlayer.class));
             }
         });
 
