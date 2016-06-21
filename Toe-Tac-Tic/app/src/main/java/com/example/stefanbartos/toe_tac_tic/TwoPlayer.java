@@ -15,6 +15,8 @@ import android.widget.Toast;
 
 public class TwoPlayer extends AppCompatActivity {
 
+    EditText e1;
+    EditText e2;
     private Button top1;
     private Button top2;
     private Button top3;
@@ -24,48 +26,42 @@ public class TwoPlayer extends AppCompatActivity {
     private Button bot1;
     private Button bot2;
     private Button bot3;
-
     private TextView player1Name;
     private TextView player2Name;
     private TextView points_p1;
     private TextView points_p2;
-
     private Character[][] fieldArray = new Character[3][3];
-
-    private int clickCNT = 0;
+    private int clickCNT;
     private int cnt = 1;
     private String winner;
-
     private TextView showturn;
-
     private String sign;
-
     private Player playerObject1;
     private Player playerObject2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tictactoe_layout);
+        setContentView(R.layout.activity_two_player_layout);
         ActionBar actionBar = getSupportActionBar();
         assert actionBar != null;
         actionBar.hide();
         initField();
         playerInput();
         selection();
+
     }
 
     public void playerInput() {
-        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        AlertDialog.Builder alert = new AlertDialog.Builder(TwoPlayer.this);
         final LinearLayout vDialog = (LinearLayout) getLayoutInflater().inflate(R.layout.dialog, null);
         alert.setView(vDialog);
+        e1 = (EditText) vDialog.findViewById(R.id.editTextP1Name);
+        e2 = (EditText) vDialog.findViewById(R.id.editTextP2Name);
         alert.setCancelable(false);
         alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                EditText e1 = (EditText) vDialog.findViewById(R.id.editTextP1Name);
-                EditText e2 = (EditText) vDialog.findViewById(R.id.editTextP2Name);
-
+            public void onClick(DialogInterface dialog, int id) {
                 playerObject1 = new Player(e1.getText().toString(), 0);
                 playerObject2 = new Player(e2.getText().toString(), 0);
                 player1Name.setText(playerObject1.getName());
@@ -74,7 +70,6 @@ public class TwoPlayer extends AppCompatActivity {
                 points_p2.setText(playerObject2.getPunktezahl() + "");
             }
         });
-        alert.setNegativeButton("CANCEL", null);
         alert.show();
     }
 
@@ -89,7 +84,7 @@ public class TwoPlayer extends AppCompatActivity {
         bot1 = (Button) findViewById(R.id.bottomleft);
         bot2 = (Button) findViewById(R.id.bottom);
         bot3 = (Button) findViewById(R.id.bottomright);
-
+        clickCNT = 0;
 
         player1Name = (TextView) findViewById(R.id.ainametv);
         player2Name = (TextView) findViewById(R.id.playernametv);
@@ -105,6 +100,7 @@ public class TwoPlayer extends AppCompatActivity {
                 fieldArray[i][o] = 'A';
             }
         }
+
     }
 
     public void selection() {
@@ -344,6 +340,7 @@ public class TwoPlayer extends AppCompatActivity {
             playerObject2.setPunktezahl(playerObject2.getPunktezahl() + 1);
             points_p2.setText(playerObject2.getPunktezahl() + "");
         }
+
         Toast.makeText(getApplicationContext(), winner_name + " hat gewonnen!", Toast.LENGTH_SHORT).show();
         winner = winner_name;
         top1.setBackgroundResource(R.drawable.button_border);
@@ -370,5 +367,6 @@ public class TwoPlayer extends AppCompatActivity {
                 fieldArray[i][o] = 'a';
             }
         }
+        clickCNT=0;
     }
 }

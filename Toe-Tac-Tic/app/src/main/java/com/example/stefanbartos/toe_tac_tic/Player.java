@@ -1,6 +1,5 @@
 package com.example.stefanbartos.toe_tac_tic;
 
-import android.graphics.drawable.Drawable;
 
 /**
  * Created by StefanBartos on 09.06.16.

@@ -20,7 +20,7 @@
         </activity>
         <activity android:name=".tictactoe_layout" />
         <activity android:name=".Stats" />
-        <activity android:name=".TwoPlayer" />
+        <activity android:name=".TwoPlayer"/>
         <activity android:name=".OnePlayer" />
         <activity
             android:name=".Preference_Activity"
