@@ -48,7 +48,7 @@ public class test2 extends AppCompatActivity {
             return;
         }
     };
-    /*InputStream inputStream = new InputStream() {
+    InputStream inputStream = new InputStream() {
         @TargetApi(Build.VERSION_CODES.KITKAT)
         @Override
         public int read(){
@@ -62,7 +62,7 @@ public class test2 extends AppCompatActivity {
             return 1;
         }
     };
-*/
+
     TextView player1tvname;
     TextView player2tvname;
     TextView player1stats;
@@ -114,7 +114,7 @@ public class test2 extends AppCompatActivity {
     String getButtonString = "";
 
     boolean gameEnd = false;
-    BluetoothSocket1 socket1;
+    test.BluetoothSocket1 socket1;
     BluetoothConnect bluetoothConnect;
 
     @Override
@@ -122,17 +122,19 @@ public class test2 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tictactoe_layout);
         init();
-        player2.setName(adapter.getName());
-        player2play();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         //Toast.makeText(getApplicationContext(), "Verbunden mit: " + socket.getRemoteDevice().getName(),Toast.LENGTH_SHORT).show();
+        player2play();
     }
 
+
+
     private void player2play() {
+        player2.setName(adapter.getName());
         while(gameEnd==false) {
             setButtonsVisible();
             player1turn = true;
@@ -141,11 +143,11 @@ public class test2 extends AppCompatActivity {
                     int code = 0;
                     showplayerturn.setText("Gegner: X");
                     while (getButtonString.equals("")) {
-                        /*try {
+                        try {
                             code = inputStream.read();
                         } catch (IOException e) {
                             e.printStackTrace();
-                        }*/
+                        }
                     }
                     if (code == 1) {
                         buttonfromp2.setId(Integer.parseInt(getButtonString));
@@ -516,7 +518,7 @@ public class test2 extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         gameEnd = true;
-        //inputStream = null;
+        inputStream = null;
         outputStream = null;
         adapter = null;
         device = null;

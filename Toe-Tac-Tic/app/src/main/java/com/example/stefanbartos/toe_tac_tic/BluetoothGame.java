@@ -113,7 +113,7 @@ public class BluetoothGame extends AppCompatActivity {
     String getButtonString = "";
 
     boolean gameEnd = false;
-    BluetoothSocket1 socket1;
+    test.BluetoothSocket1 bluetoothSocket1;
     BluetoothConnect bluetoothConnect;
 
     @Override
@@ -409,9 +409,9 @@ public class BluetoothGame extends AppCompatActivity {
                 Intent discoverableIntent = new
                         Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
                 startActivity(discoverableIntent);
-                dialog = ProgressDialog.show(BluetoothGame.this, "Wartet...", "Wartet auf Verbindung...", false, false);
-                socket1 = new BluetoothSocket1(BluetoothGame.this);
-                socket1.start();
+                //dialog = ProgressDialog.show(BluetoothGame.this, "Wartet...", "Wartet auf Verbindung...", false, false);
+                bluetoothSocket1 = new test.BluetoothSocket1(BluetoothGame.this);
+                bluetoothSocket1.start();
             }
         });
         buttonplayer2.setOnClickListener(new View.OnClickListener() {

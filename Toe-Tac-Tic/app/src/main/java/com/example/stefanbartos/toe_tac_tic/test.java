@@ -5,64 +5,38 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Set;
+import java.util.UUID;
 
 /**
  * Created by StefanBartos on 17.06.16.
  */
 public class test extends AppCompatActivity {
+    BluetoothReader bluetoothReader;
     byte [] buffer = new byte[1024];
     int bytes;
     BluetoothDevice device;
+    OutputStream outputStream = null;
 
-    OutputStream outputStream = new OutputStream() {
-        @Override
-        public void write(int oneByte) throws IOException {
-            this.write(buffer);
-            return;
-        }
-    };
-    /*InputStream inputStream = new InputStream() {
-        @TargetApi(Build.VERSION_CODES.KITKAT)
-        @Override
-        public int read(){
-            try {
-                bytes = this.read(buffer);
-                String str = new String(buffer, StandardCharsets.UTF_8);
-                getButtonString = str;
-            } catch (IOException e) {
-                return 0;
-            }
-            return 1;
-        }
-    };
-*/
     TextView player1tvname;
     TextView player2tvname;
     TextView player1stats;
@@ -104,17 +78,11 @@ public class test extends AppCompatActivity {
     Button buttontosend;
     Button buttonfromp2;
 
-    ArrayAdapter<BluetoothDevice> pairedDeviceAdapter;
-    ArrayList<BluetoothDevice> pairedDeviceArrayList;
-
-    AlertDialog.Builder alertDialog;
-    AlertDialog OptionDialog;
 
     String textforsend = "";
     String getButtonString = "";
 
     boolean gameEnd = false;
-    BluetoothSocket1 socket1;
     BluetoothConnect bluetoothConnect;
 
     @Override
@@ -122,8 +90,6 @@ public class test extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tictactoe_layout);
         init();
-        player1.setName(adapter.getName());
-        player1play();
     }
 
     @Override
@@ -134,7 +100,10 @@ public class test extends AppCompatActivity {
             }
 
 
-    private void player1play() {
+    private void player1play(BluetoothSocket socket) {
+        bluetoothReader = new BluetoothReader(socket);
+        bluetoothReader.start();
+        player1.setName(adapter.getName());
         while(gameEnd==false) {
             setButtonsVisible();
             showplayerturn.setText(player1turnString);
@@ -154,25 +123,19 @@ public class test extends AppCompatActivity {
                 if (!checkifwon()) {
                     int code = 0;
                     showplayerturn.setText("Gegner: O");
-                    while (getButtonString.equals("")) {
-                        /*try {
-                            code = inputStream.read();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }*/
-                    }
-                    if (code == 1) {
+                    if(getButtonString!=null) {
                         buttonfromp2.setId(Integer.parseInt(getButtonString));
                         buttonfromp2.setEnabled(false);
                         buttonfromp2.setBackgroundResource(R.drawable.o);
                         findcorrectBotArray(buttonfromp2, 'O');
+                    }
                     }
                 }
                 player1turn = false;
             }
             checkifwon();
         }
-    }
+
 
     private void setButtonsVisible() {
         player1tvname.setVisibility(View.VISIBLE);
@@ -200,6 +163,7 @@ public class test extends AppCompatActivity {
 
 
     private void init() {
+
         showplayerturn = (TextView) findViewById(R.id.tvshowturn);
 
         layoutLinear = (LinearLayout) findViewById(R.id.LayoutLinear);
@@ -349,11 +313,6 @@ public class test extends AppCompatActivity {
 
         buttonplayer1.setVisibility(View.VISIBLE);
         buttonplayer2.setVisibility(View.VISIBLE);
-    }
-
-    private void findDevices() {
-        Intent i = new Intent(this, findBTDevices.class);
-        startActivity(i);
     }
 
 
@@ -517,7 +476,6 @@ public class test extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         gameEnd = true;
-        //inputStream = null;
         outputStream = null;
         adapter = null;
         device = null;
@@ -544,4 +502,84 @@ public class test extends AppCompatActivity {
         stmt.executeInsert();
     }
 
+    public static class BluetoothSocket1 extends Thread{
+        private String NAME = "";
+        private final UUID MY_UUID = UUID.fromString("fa87c0d0-afac-11de-8a39-0800200c9a66");
+        private BluetoothAdapter mAdapter = null;
+        private BluetoothServerSocket mmServerSocket = null;
+        BluetoothGame bluetoothGame = new BluetoothGame();
+        private int mState;
+        public static final int STATE_NONE = 0;       // we're doing nothing
+        public static final int STATE_LISTEN = 1;     // now listening for incoming connections
+        public static final int STATE_CONNECTING = 2; // now initiating an outgoing connection
+        public static final int STATE_CONNECTED = 3;  // now connected to a remote device
+
+        Context context;
+
+        public BluetoothSocket1(Context context1){
+            mAdapter = BluetoothAdapter.getDefaultAdapter();
+            NAME = mAdapter.getName();
+            mState = STATE_NONE;
+            context = context1;
+            BluetoothServerSocket tmp = null;
+
+            try {
+                tmp = mAdapter.listenUsingRfcommWithServiceRecord(NAME, MY_UUID);
+            } catch (IOException e) {
+            }
+            mmServerSocket = tmp;
+        }
+
+        public void run() {
+            android.bluetooth.BluetoothSocket socket = null;
+            // Listen to the server socket if we're not connected
+            while (mState != STATE_CONNECTED) {
+                try {
+
+                    socket = mmServerSocket.accept();
+                } catch (IOException e) {
+                    break;
+                }
+
+                if (socket != null) {
+                    test test1 = new test();
+                    test1.player1play(socket);
+                }
+            }
+        }
+
+    }
+    public class BluetoothReader extends Thread
+    {
+        BluetoothSocket bluetoothSocket;
+        InputStream inputStream;
+        OutputStream outputStream;
+
+        public BluetoothReader(BluetoothSocket bluetoothSocket) {
+            InputStream inputStream1 = null;
+            try {
+                inputStream1 = bluetoothSocket.getInputStream();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            inputStream = inputStream1;
+        }
+
+        @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+        public void run()
+        {
+            byte[] buffer = new byte[1024];
+            int bytes;
+            while (bluetoothSocket.isConnected())
+            {
+                try {
+                    bytes = inputStream.read(buffer);
+                    getButtonString = getButtonString + bytes;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 }
+
