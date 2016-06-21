@@ -35,7 +35,7 @@ public class TwoPlayer extends AppCompatActivity {
     private int cnt = 1;
     private String winner;
     private TextView showturn;
-    private String sign;
+    private String sign="keiner";
     private Player playerObject1;
     private Player playerObject2;
 
@@ -247,9 +247,12 @@ public class TwoPlayer extends AppCompatActivity {
             }
             return sign;
         } else {
-            Toast.makeText(getApplicationContext(), "Spieler " + winner + " hat gewonnen", Toast.LENGTH_LONG).show();
+            if (!checkifwon()&& cnt != 9){
+                Character character=0;
+                gameWon(character);
+            }
         }
-        return null;
+        return sign;
     }
 
     private boolean checkifwon() {
@@ -329,19 +332,26 @@ public class TwoPlayer extends AppCompatActivity {
 
     public void gameWon(Character character) {
         String winner_name;
-        if (character == 'O') {
-
+        if (character == 'X') {
             winner_name = playerObject1.getName();
             playerObject1.setPunktezahl(playerObject1.getPunktezahl() + 1);
             points_p1.setText(playerObject1.getPunktezahl() + "");
+            Toast.makeText(getApplicationContext(), winner_name + " hat gewonnen!", Toast.LENGTH_SHORT).show();
 
-        } else {
+
+        } else if(character== 'O'){
             winner_name = playerObject2.getName();
             playerObject2.setPunktezahl(playerObject2.getPunktezahl() + 1);
             points_p2.setText(playerObject2.getPunktezahl() + "");
+            Toast.makeText(getApplicationContext(), winner_name + " hat gewonnen!", Toast.LENGTH_SHORT).show();
+
+        }else
+        {
+            winner_name= "Kein Gewinner";
+            Toast.makeText(getApplicationContext(), winner_name, Toast.LENGTH_SHORT).show();
+
         }
 
-        Toast.makeText(getApplicationContext(), winner_name + " hat gewonnen!", Toast.LENGTH_SHORT).show();
         winner = winner_name;
         top1.setBackgroundResource(R.drawable.button_border);
         top1.setEnabled(true);
