@@ -191,67 +191,87 @@ public class TwoPlayer extends AppCompatActivity {
     public String playerTurn(Button button) {
         if (clickCNT < 9) {
             if (cnt % 2 == 0) {
+                button.setBackgroundResource(R.drawable.o);
+                showturn.setText(playerObject1.getName() + ": X");
+                if (button == top1) {
+                    fieldArray[0][0] = 'O';
+                    button.setEnabled(false);
+                }
+                if (button == top2) {
+                    fieldArray[0][1] = 'O';
+                    button.setEnabled(false);
+                }
+                if (button == top3) {
+                    fieldArray[0][2] = 'O';
+                    button.setEnabled(false);
+                }
+                if (button == mid1) {
+                    fieldArray[1][0] = 'O';
+                    button.setEnabled(false);
+                }
+                if (button == mid2) {
+                    fieldArray[1][1] = 'O';
+                    button.setEnabled(false);
+                }
+                if (button == mid3) {
+                    fieldArray[1][2] = 'O';
+                    button.setEnabled(false);
+                }
+                if (button == bot1) {
+                    fieldArray[2][0] = 'O';
+                    button.setEnabled(false);
+                }
+                if (button == bot2) {
+                    fieldArray[2][1] = 'O';
+                    button.setEnabled(false);
+                }
+                if (button == bot3) {
+                    fieldArray[2][2] = 'O';
+                    button.setEnabled(false);
+                }
+                cnt += 1;
+                checkifwon();
+            } else {
+
                 showturn.setText(playerObject2.getName() + ": O");
                 button.setBackgroundResource(R.drawable.x);
                 button.setEnabled(false);
                 if (button == top1) {
                     fieldArray[0][0] = 'X';
+                    button.setEnabled(false);
+                    button.setEnabled(false);
                 }
                 if (button == top2) {
                     fieldArray[0][1] = 'X';
+                    button.setEnabled(false);
                 }
                 if (button == top3) {
                     fieldArray[0][2] = 'X';
+                    button.setEnabled(false);
                 }
                 if (button == mid1) {
                     fieldArray[1][0] = 'X';
+                    button.setEnabled(false);
                 }
                 if (button == mid2) {
                     fieldArray[1][1] = 'X';
+                    button.setEnabled(false);
                 }
                 if (button == mid3) {
                     fieldArray[1][2] = 'X';
+                    button.setEnabled(false);
                 }
                 if (button == bot1) {
                     fieldArray[2][0] = 'X';
+                    button.setEnabled(false);
                 }
                 if (button == bot2) {
                     fieldArray[2][1] = 'X';
+                    button.setEnabled(false);
                 }
                 if (button == bot3) {
                     fieldArray[2][2] = 'X';
-                }
-                cnt += 1;
-                checkifwon();
-            } else {
-                button.setBackgroundResource(R.drawable.o);
-                showturn.setText(playerObject1.getName() + ": X");
-                if (button == top1) {
-                    fieldArray[0][0] = 'O';
-                }
-                if (button == top2) {
-                    fieldArray[0][1] = 'O';
-                }
-                if (button == top3) {
-                    fieldArray[0][2] = 'O';
-                }
-                if (button == mid1) {
-                    fieldArray[1][0] = 'O';
-                }
-                if (button == mid2) {
-                    fieldArray[1][1] = 'O';
-                }
-                if (button == mid3) {
-                    fieldArray[1][2] = 'O';
-                }
-                if (button == bot1) {
-                    fieldArray[2][0] = 'O';
-                }
-                if (button == bot2) {
-                    fieldArray[2][1] = 'O';
-                }
-                if (button == bot3) {
-                    fieldArray[2][2] = 'O';
+                    button.setEnabled(false);
                 }
                 cnt += 1;
                 checkifwon();
