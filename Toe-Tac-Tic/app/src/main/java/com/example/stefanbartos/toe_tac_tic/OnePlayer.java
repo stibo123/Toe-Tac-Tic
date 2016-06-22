@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.text.InputFilter;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -57,8 +58,10 @@ public class OnePlayer extends AppCompatActivity {
 
     private void showDialog() {
         final EditText editText = new EditText(this);
+        int maxLength = 11;
+        editText.setFilters(new InputFilter[] {new InputFilter.LengthFilter(maxLength)});
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Geben Sie ihren Namen ein: ")
+        builder.setMessage("Type your name: ")
                 .setCancelable(false)
                 .setView(editText)
                 .setTitle("Toe-Tac-Tic")

@@ -69,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
                         Intent BTGame = new Intent(getApplicationContext(), BluetoothGame.class);
                         startActivity(BTGame);
                 }
-
             }
         });
 

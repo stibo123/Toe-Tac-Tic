@@ -232,7 +232,6 @@ public class TwoPlayer extends AppCompatActivity {
                 cnt += 1;
                 checkifwon();
             } else {
-
                 showturn.setText(playerObject2.getName() + ": O");
                 button.setBackgroundResource(R.drawable.x);
                 button.setEnabled(false);
@@ -276,7 +275,6 @@ public class TwoPlayer extends AppCompatActivity {
                 cnt += 1;
                 checkifwon();
             }
-            return sign;
         } else {
             if (!checkifwon() && cnt != 9) {
                 Character character = 0;
