@@ -35,7 +35,7 @@ public class Stats extends AppCompatActivity {
         int player1score = cursor.getColumnIndex(Schemaklasse.player1score);
         int player2score = cursor.getColumnIndex(Schemaklasse.player2score);
         while (cursor.moveToNext()) {
-            al.add(cursor.getString(Player1) + ":" + cursor.getString(Player2) + " " + cursor.getInt(player1score) + ":" + cursor.getInt(player2score));
+            al.add(cursor.getString(Player1) + ":" + cursor.getString(Player2) + "  \t " + cursor.getInt(player1score) + ":" + cursor.getInt(player2score));
         }
         cursor.close();
         db.close();
