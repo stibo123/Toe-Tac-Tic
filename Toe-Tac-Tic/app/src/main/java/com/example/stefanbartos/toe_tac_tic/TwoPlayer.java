@@ -73,7 +73,7 @@ public class TwoPlayer extends AppCompatActivity {
                 if (e2.getText().toString().length() == 0) {
                     playerObject2 = new Player("Player 2", 0);
                 } else {
-                    playerObject2 = new Player(e1.getText().toString(), 0);
+                    playerObject2 = new Player(e2.getText().toString(), 0);
                 }
                 player1Name.setText(playerObject1.getName());
                 player2Name.setText(playerObject2.getName());
