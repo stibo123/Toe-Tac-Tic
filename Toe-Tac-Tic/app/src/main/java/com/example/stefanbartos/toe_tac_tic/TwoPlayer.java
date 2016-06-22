@@ -2,6 +2,8 @@ package com.example.stefanbartos.toe_tac_tic;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteStatement;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -35,7 +37,7 @@ public class TwoPlayer extends AppCompatActivity {
     private int cnt = 1;
     private String winner;
     private TextView showturn;
-    private String sign="keiner";
+    private String sign = "keiner";
     private Player playerObject1;
     private Player playerObject2;
 
@@ -62,8 +64,17 @@ public class TwoPlayer extends AppCompatActivity {
         alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int id) {
-                playerObject1 = new Player(e1.getText().toString(), 0);
-                playerObject2 = new Player(e2.getText().toString(), 0);
+
+                if (e1.getText().toString().length() == 0) {
+                    playerObject1 = new Player("Player 1", 0);
+                } else {
+                    playerObject1 = new Player(e1.getText().toString(), 0);
+                }
+                if (e2.getText().toString().length() == 0) {
+                    playerObject2 = new Player("Player 2", 0);
+                } else {
+                    playerObject2 = new Player(e1.getText().toString(), 0);
+                }
                 player1Name.setText(playerObject1.getName());
                 player2Name.setText(playerObject2.getName());
                 points_p1.setText(playerObject1.getPunktezahl() + "");
@@ -247,8 +258,8 @@ public class TwoPlayer extends AppCompatActivity {
             }
             return sign;
         } else {
-            if (!checkifwon()&& cnt != 9){
-                Character character=0;
+            if (!checkifwon() && cnt != 9) {
+                Character character = 0;
                 gameWon(character);
             }
         }
@@ -339,15 +350,14 @@ public class TwoPlayer extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), winner_name + " hat gewonnen!", Toast.LENGTH_SHORT).show();
 
 
-        } else if(character== 'O'){
+        } else if (character == 'O') {
             winner_name = playerObject2.getName();
             playerObject2.setPunktezahl(playerObject2.getPunktezahl() + 1);
             points_p2.setText(playerObject2.getPunktezahl() + "");
             Toast.makeText(getApplicationContext(), winner_name + " hat gewonnen!", Toast.LENGTH_SHORT).show();
 
-        }else
-        {
-            winner_name= "Kein Gewinner";
+        } else {
+            winner_name = "Kein Gewinner";
             Toast.makeText(getApplicationContext(), winner_name, Toast.LENGTH_SHORT).show();
 
         }
@@ -377,6 +387,33 @@ public class TwoPlayer extends AppCompatActivity {
                 fieldArray[i][o] = 'a';
             }
         }
-        clickCNT=0;
+        clickCNT = 0;
+    }
+
+    @Override
+    public void onBackPressed() {
+        DatabaseHelper databaseHelper = new DatabaseHelper(this);
+        SQLiteDatabase db = databaseHelper.getWritableDatabase();
+        final SQLiteStatement stmt = db.compileStatement(Schemaklasse.STMT_INSERT);
+        db.beginTransaction();
+        int p1points = Integer.parseInt(points_p1.getText().toString());
+        int p2points = Integer.parseInt(points_p2.getText().toString());
+        try {
+            insertScore(stmt, player1Name.getText().toString(), player2Name.getText().toString(), p1points, p2points);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            db.setTransactionSuccessful();
+            db.endTransaction();
+        }
+        super.onBackPressed();
+    }
+
+    private void insertScore(SQLiteStatement stmt, String player1name, String player2name, int player1punktezahl, int player2punktezahl) {
+        stmt.bindString(1, player1name);
+        stmt.bindString(2, player2name);
+        stmt.bindLong(3, player1punktezahl);
+        stmt.bindLong(4, player2punktezahl);
+        stmt.executeInsert();
     }
 }
