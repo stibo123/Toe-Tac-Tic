@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -56,8 +57,8 @@ public class Stats extends AppCompatActivity {
             alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+                    db.delete(Schemaklasse.TABLE_NAME, Schemaklasse.id + "=?", new String[]{"" + (pos + 1)});
                     al.remove(pos);
-                    displayItems();
                 }
             });
 
@@ -76,7 +77,7 @@ public class Stats extends AppCompatActivity {
                         al.add(cursor.getString(Player1) + ":" + cursor.getString(Player2) + "  \t " + cursor.getInt(player1score) + ":" + cursor.getInt(player2score));
                     }
                     cursor.close();
-                    db.close();
+                    //db.close();
                 }
 
                 private void displayItems() {
