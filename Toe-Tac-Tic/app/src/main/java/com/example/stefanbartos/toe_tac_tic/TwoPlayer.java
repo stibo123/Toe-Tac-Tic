@@ -36,7 +36,6 @@ public class TwoPlayer extends AppCompatActivity {
     private Character[][] fieldArray = new Character[3][3];
     private int clickCNT;
     private int cnt = 1;
-    private String winner;
     private TextView showturn;
     private String sign = "keiner";
     private Player playerObject1;
@@ -384,7 +383,6 @@ public class TwoPlayer extends AppCompatActivity {
 
         }
 
-        winner = winner_name;
         top1.setBackgroundResource(R.drawable.button_border);
         top1.setEnabled(true);
         top2.setBackgroundResource(R.drawable.button_border);
