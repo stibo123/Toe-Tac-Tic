@@ -351,11 +351,6 @@ public class test2 extends AppCompatActivity {
         buttonplayer2.setVisibility(View.VISIBLE);
     }
 
-    private void findDevices() {
-        Intent i = new Intent(this, findBTDevices.class);
-        startActivity(i);
-    }
-
 
     private void findcorrectBotArray(Button button, Character character) {
         if (button == topleft) {

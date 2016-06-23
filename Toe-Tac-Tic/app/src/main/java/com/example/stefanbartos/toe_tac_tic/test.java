@@ -8,6 +8,7 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.os.Build;
@@ -542,7 +543,9 @@ public class test extends AppCompatActivity {
                 }
 
                 if (socket != null) {
-
+                    Intent i = new Intent(context, test.class);
+                    i.setFlags(i.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(i);
                 }
             }
         }
