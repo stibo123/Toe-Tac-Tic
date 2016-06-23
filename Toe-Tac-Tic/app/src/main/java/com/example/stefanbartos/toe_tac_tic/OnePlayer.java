@@ -59,10 +59,16 @@ public class OnePlayer extends AppCompatActivity {
     private void showDialog() {
         final EditText editText = new EditText(this);
         int maxLength = 11;
-        editText.setFilters(new InputFilter[] {new InputFilter.LengthFilter(maxLength)});
+        editText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(maxLength)});
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("Type your name: ")
                 .setCancelable(false)
+                .setNegativeButton("Back", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                })
                 .setView(editText)
                 .setTitle("Toe-Tac-Tic")
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -76,6 +82,7 @@ public class OnePlayer extends AppCompatActivity {
                         playernametv.setText(player1.getName());
                     }
                 });
+
         AlertDialog alert = builder.create();
         alert.show();
     }

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputFilter;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -64,6 +65,12 @@ public class TwoPlayer extends AppCompatActivity {
         e1.setFilters(new InputFilter[] {new InputFilter.LengthFilter(maxLength)});
         e2.setFilters(new InputFilter[] {new InputFilter.LengthFilter(maxLength)});
         alert.setCancelable(false);
+        alert.setNegativeButton("Zurück", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        });
         alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int id) {
@@ -370,7 +377,6 @@ public class TwoPlayer extends AppCompatActivity {
             points_p1.setText(playerObject1.getPunktezahl() + "");
             Toast.makeText(getApplicationContext(), winner_name + " hat gewonnen!", Toast.LENGTH_SHORT).show();
 
-
         } else if (character == 'O') {
             winner_name = playerObject2.getName();
             playerObject2.setPunktezahl(playerObject2.getPunktezahl() + 1);
@@ -380,7 +386,6 @@ public class TwoPlayer extends AppCompatActivity {
         } else {
             winner_name = "Kein Gewinner";
             Toast.makeText(getApplicationContext(), winner_name, Toast.LENGTH_SHORT).show();
-
         }
 
         top1.setBackgroundResource(R.drawable.button_border);
