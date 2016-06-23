@@ -439,12 +439,13 @@ public class BluetoothGame extends AppCompatActivity {
                 Intent discoverableIntent = new
                         Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
                 startActivity(discoverableIntent);
-                //dialog = ProgressDialog.show(BluetoothGame.this, "Wartet...", "Wartet auf Verbindung...", false, false);
+                dialog = ProgressDialog.show(BluetoothGame.this, "Wartet...", "Wartet auf Verbindung...", false, false);
                 bluetoothSocket1 = new BluetoothSocket1(BluetoothGame.this);
                 bluetoothSocket1.start();
                 while (waittillconnected) {
                 }
                 if (waittillconnected = false) {
+                    dialog.dismiss();
                     player1play();
                 }
 
