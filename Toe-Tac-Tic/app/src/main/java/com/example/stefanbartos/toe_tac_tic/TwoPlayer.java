@@ -18,7 +18,6 @@ import android.widget.Toast;
 
 
 public class TwoPlayer extends AppCompatActivity {
-
     EditText e1;
     EditText e2;
     private Button top1;
@@ -443,3 +442,4 @@ public class TwoPlayer extends AppCompatActivity {
         stmt.executeInsert();
     }
 }
+
