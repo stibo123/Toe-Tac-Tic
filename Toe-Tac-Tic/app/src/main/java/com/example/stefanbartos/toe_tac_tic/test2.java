@@ -124,36 +124,35 @@ public class test2 extends AppCompatActivity {
         init();
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        //Toast.makeText(getApplicationContext(), "Verbunden mit: " + socket.getRemoteDevice().getName(),Toast.LENGTH_SHORT).show();
-        player2play();
-    }
-
-
-
-    private void player2play() {
+    private void player2play(BluetoothSocket bluetoothSocket) {
         player2.setName(adapter.getName());
         while(gameEnd==false) {
             setButtonsVisible();
             player1turn = true;
             if (!checkiffull()) {
                 if (!checkifwon()) {
-                    int code = 0;
                     showplayerturn.setText("Gegner: X");
-                    while (getButtonString.equals("")) {
-                        try {
-                            code = inputStream.read();
-                        } catch (IOException e) {
-                            e.printStackTrace();
+                    boolean buttontrue = true;
+                    test2.BluetoothReader bluetoothReader = new BluetoothReader(bluetoothSocket);
+                    bluetoothReader.start();
+                    while (buttontrue) {
+                        if (buttonfromp2.equals(bottom)
+                                || buttonfromp2.equals(bottomleft)
+                                || buttonfromp2.equals(bottomleft)
+                                || buttonfromp2.equals(bottomleft)
+                                || buttonfromp2.equals(bottomleft)
+                                || buttonfromp2.equals(bottomleft)
+                                || buttonfromp2.equals(bottomleft)
+                                || buttonfromp2.equals(bottomleft)
+                                || buttonfromp2.equals(bottomleft)) {
+                            buttonfromp2.setId(Integer.parseInt(getButtonString));
+                            buttonfromp2.setEnabled(false);
+                            buttonfromp2.setBackgroundResource(R.drawable.x);
+                            findcorrectBotArray(buttonfromp2, 'X');
+                            buttontrue = false;
                         }
-                    }
-                    if (code == 1) {
-                        buttonfromp2.setId(Integer.parseInt(getButtonString));
-                        buttonfromp2.setEnabled(false);
-                        buttonfromp2.setBackgroundResource(R.drawable.x);
-                        findcorrectBotArray(buttonfromp2, 'X');
+
+
                     }
                 }
             }
@@ -544,5 +543,36 @@ public class test2 extends AppCompatActivity {
         stmt.bindLong(4, aipunktezahl);
         stmt.executeInsert();
     }
+    public class BluetoothReader extends Thread
+    {
+        BluetoothSocket bluetoothSocket;
+        InputStream inputStream;
+        OutputStream outputStream;
 
+        public BluetoothReader(BluetoothSocket bluetoothSocket) {
+            InputStream inputStream1 = null;
+            try {
+                inputStream1 = bluetoothSocket.getInputStream();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            inputStream = inputStream1;
+        }
+
+        @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+        public void run()
+        {
+            byte[] buffer = new byte[1024];
+            int bytes;
+            while (bluetoothSocket.isConnected())
+            {
+                try {
+                    bytes = inputStream.read(buffer);
+                    getButtonString = getButtonString + bytes;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 }

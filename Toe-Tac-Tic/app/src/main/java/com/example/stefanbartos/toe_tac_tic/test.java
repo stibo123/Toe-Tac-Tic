@@ -542,8 +542,7 @@ public class test extends AppCompatActivity {
                 }
 
                 if (socket != null) {
-                    test test1 = new test();
-                    test1.player1play(socket);
+
                 }
             }
         }
