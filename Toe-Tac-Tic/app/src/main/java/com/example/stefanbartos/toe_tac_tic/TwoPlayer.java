@@ -64,7 +64,7 @@ public class TwoPlayer extends AppCompatActivity {
         e1.setFilters(new InputFilter[] {new InputFilter.LengthFilter(maxLength)});
         e2.setFilters(new InputFilter[] {new InputFilter.LengthFilter(maxLength)});
         alert.setCancelable(false);
-        alert.setNegativeButton("Zurück", new DialogInterface.OnClickListener() {
+        alert.setNegativeButton("back", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 finish();
