@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteStatement;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.text.InputFilter;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -60,6 +61,9 @@ public class TwoPlayer extends AppCompatActivity {
         alert.setView(vDialog);
         e1 = (EditText) vDialog.findViewById(R.id.editTextP1Name);
         e2 = (EditText) vDialog.findViewById(R.id.editTextP2Name);
+        int maxLength = 11;
+        e1.setFilters(new InputFilter[] {new InputFilter.LengthFilter(maxLength)});
+        e2.setFilters(new InputFilter[] {new InputFilter.LengthFilter(maxLength)});
         alert.setCancelable(false);
         alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
