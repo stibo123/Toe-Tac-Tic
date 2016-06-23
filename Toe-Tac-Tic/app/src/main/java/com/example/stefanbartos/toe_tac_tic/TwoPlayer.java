@@ -192,7 +192,7 @@ public class TwoPlayer extends AppCompatActivity {
     }
 
     public String playerTurn(Button button) {
-        if (clickCNT < 9) {
+        if (clickCNT < 10) {
             if (cnt % 2 == 0) {
                 button.setBackgroundResource(R.drawable.o);
                 showturn.setText(playerObject1.getName() + ": X");
@@ -411,6 +411,7 @@ public class TwoPlayer extends AppCompatActivity {
     }
 
     @Override
+
     public void onBackPressed() {
         DatabaseHelper databaseHelper = new DatabaseHelper(this);
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
