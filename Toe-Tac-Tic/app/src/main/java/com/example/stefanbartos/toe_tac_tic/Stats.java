@@ -48,11 +48,20 @@ public class Stats extends AppCompatActivity {
         });
     }
 
+    private void entrySelected(final int pos)
         {
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+            final LinearLayout vDialog = (LinearLayout) this.getLayoutInflater().inflate(R.layout.stats_dialog, null);
+            alert.setView(vDialog);
+            alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    al.remove(pos);
                     displayItems();
                 }
             });
 
+            alert.setNegativeButton("NO", null);
             alert.show();
 
         }
