@@ -20,15 +20,29 @@
         </activity>
         <activity android:name=".tictactoe_layout" />
         <activity android:name=".Stats" />
-        <activity android:name=".TwoPlayer"/>
+        <activity android:name=".TwoPlayer" />
         <activity android:name=".OnePlayer" />
         <activity
             android:name=".Preference_Activity"
             android:label="Einstellungen" />
-        <activity android:name=".BluetoothGame"></activity>
-        <activity android:name=".findBTDevices"></activity>
-        <activity android:name=".test"></activity>
-        <activity android:name=".test2"></activity>
+        <activity android:name=".BluetoothGame" />
+        <activity android:name=".findBTDevices" />
+
+        <receiver
+            android:name=".MyReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.bluetooth.adapter.action.STATE_CHANGED"/>
+                <action android:name="android.bluetooth.device.action.BOND_STATE_CHANGED"/>
+                <action android:name="android.bluetooth.a2dp.profile.action.CONNECTION_STATE_CHANGED"/>
+            </intent-filter>
+        </receiver>
+        <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
+             App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
     </application>
 
 </manifest>

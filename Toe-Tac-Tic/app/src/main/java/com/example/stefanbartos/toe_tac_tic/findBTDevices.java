@@ -90,6 +90,8 @@ public class findBTDevices extends AppCompatActivity {
                     unregisterReceiver(mReceiver);
                     bluetoothConnect = new BluetoothConnect(getApplicationContext(), device);
                     bluetoothConnect.start();
+                    finish();
+
                 }
             });
         }
@@ -108,6 +110,7 @@ public class findBTDevices extends AppCompatActivity {
                 unregisterReceiver(mReceiver);
                 bluetoothConnect = new BluetoothConnect(getApplicationContext(), device);
                 bluetoothConnect.start();
+                finish();
             }
         });
 

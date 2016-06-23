@@ -22,11 +22,12 @@
             android:id="@+id/LayoutLinear">
 
             <Button
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
                 android:text="Player1"
                 android:id="@+id/buttonplayer1"
-                android:layout_gravity="center_horizontal" />
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1" />
 
             <Button
                 android:layout_width="fill_parent"

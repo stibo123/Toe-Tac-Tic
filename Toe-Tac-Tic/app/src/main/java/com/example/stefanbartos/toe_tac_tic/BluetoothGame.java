@@ -5,12 +5,14 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothSocket;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -24,6 +26,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.common.api.GoogleApiClient;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -36,7 +42,18 @@ import java.util.Set;
  * Created by StefanBartos on 17.06.16.
  */
 public class BluetoothGame extends AppCompatActivity {
-    byte [] buffer = new byte[1024];
+    boolean waittillconnected = true;
+
+    public boolean isWaittillconnected() {
+        return waittillconnected;
+    }
+
+    public void setWaittillconnected(boolean waittillconnected) {
+        this.waittillconnected = waittillconnected;
+    }
+
+    BluetoothSocket socket;
+    byte[] buffer = new byte[1024];
     int bytes;
     BluetoothDevice device;
 
@@ -50,7 +67,7 @@ public class BluetoothGame extends AppCompatActivity {
     InputStream inputStream = new InputStream() {
         @TargetApi(Build.VERSION_CODES.KITKAT)
         @Override
-        public int read(){
+        public int read() {
             try {
                 bytes = this.read(buffer);
                 String str = new String(buffer, StandardCharsets.UTF_8);
@@ -77,7 +94,9 @@ public class BluetoothGame extends AppCompatActivity {
     Button bottom;
     Button bottomright;
 
+    TextView gamestv;
     TextView showplayerturn;
+
 
     Player player1;
     Player player2;
@@ -113,39 +132,34 @@ public class BluetoothGame extends AppCompatActivity {
     String getButtonString = "";
 
     boolean gameEnd = false;
-    test.BluetoothSocket1 bluetoothSocket1;
+    BluetoothSocket1 bluetoothSocket1;
     BluetoothConnect bluetoothConnect;
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tictactoe_layout);
         init();
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
-    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-    public void game(android.bluetooth.BluetoothSocket socket) {
-        if (socket.isConnected()) {
-            Toast.makeText(getApplicationContext(), "Verbunden mit: " + socket.getRemoteDevice().getName(),Toast.LENGTH_SHORT).show();
-            if (buttonplayer1Pressed) {
-                dialog.dismiss();
-                player1.setName(adapter.getName());
-                player1play(socket);
-            }
-            if (buttonplayer2Pressed) {
-                player2.setName(adapter.getName());
-                player2play(socket);
-            }
-            else
-            {
-                Toast.makeText(getApplicationContext(), "Fehler!",Toast.LENGTH_SHORT).show();
-                return;
-            }
-        }
+    public String getGetButtonString() {
+        return getButtonString;
     }
 
-    private void player1play(android.bluetooth.BluetoothSocket socket) {
-        while(gameEnd==false) {
+    public void setGetButtonString(String getButtonString) {
+        this.getButtonString = getButtonString;
+    }
+
+    private void player1play() {
+        while (gameEnd == false) {
             setButtonsVisible();
             showplayerturn.setText(player1turnString);
             while (player1turn == false) {
@@ -164,46 +178,59 @@ public class BluetoothGame extends AppCompatActivity {
                 if (!checkifwon()) {
                     int code = 0;
                     showplayerturn.setText("Gegner: O");
-                    while (getButtonString.equals("")) {
-                        try {
-                            code = inputStream.read();
-                        } catch (IOException e) {
-                            e.printStackTrace();
+                    boolean buttontrue = true;
+                    while (buttontrue) {
+                        if (buttonfromp2.equals(bottom)
+                                || buttonfromp2.equals(bottomleft)
+                                || buttonfromp2.equals(bottomleft)
+                                || buttonfromp2.equals(bottomleft)
+                                || buttonfromp2.equals(bottomleft)
+                                || buttonfromp2.equals(bottomleft)
+                                || buttonfromp2.equals(bottomleft)
+                                || buttonfromp2.equals(bottomleft)
+                                || buttonfromp2.equals(bottomleft)) {
+                            buttonfromp2.setId(Integer.parseInt(getButtonString));
+                            buttonfromp2.setEnabled(false);
+                            buttonfromp2.setBackgroundResource(R.drawable.x);
+                            findcorrectBotArray(buttonfromp2, 'X');
+                            buttontrue = false;
+                            getButtonString = "";
                         }
-                    }
-                    if (code == 1) {
-                        buttonfromp2.setId(Integer.parseInt(getButtonString));
-                        buttonfromp2.setEnabled(false);
-                        buttonfromp2.setBackgroundResource(R.drawable.o);
-                        findcorrectBotArray(buttonfromp2, 'O');
                     }
                 }
                 player1turn = false;
             }
             checkifwon();
         }
-        }
+    }
 
-    private void player2play(android.bluetooth.BluetoothSocket socket) {
-        while(gameEnd==false) {
+    private void player2play() {
+        while (gameEnd == false) {
             setButtonsVisible();
             player1turn = true;
             if (!checkiffull()) {
                 if (!checkifwon()) {
                     int code = 0;
                     showplayerturn.setText("Gegner: X");
-                    while (getButtonString.equals("")) {
-                        try {
-                            code = inputStream.read();
-                        } catch (IOException e) {
-                            e.printStackTrace();
+                    boolean buttontrue = true;
+                    while (buttontrue) {
+                        if (buttonfromp2.equals(bottom)
+                                || buttonfromp2.equals(bottomleft)
+                                || buttonfromp2.equals(bottomleft)
+                                || buttonfromp2.equals(bottomleft)
+                                || buttonfromp2.equals(bottomleft)
+                                || buttonfromp2.equals(bottomleft)
+                                || buttonfromp2.equals(bottomleft)
+                                || buttonfromp2.equals(bottomleft)
+                                || buttonfromp2.equals(bottomleft)) {
+                            buttonfromp2.setId(Integer.parseInt(getButtonString));
+                            buttonfromp2.setEnabled(false);
+                            buttonfromp2.setBackgroundResource(R.drawable.x);
+                            findcorrectBotArray(buttonfromp2, 'X');
+                            buttontrue = false;
                         }
-                    }
-                    if (code == 1) {
-                        buttonfromp2.setId(Integer.parseInt(getButtonString));
-                        buttonfromp2.setEnabled(false);
-                        buttonfromp2.setBackgroundResource(R.drawable.x);
-                        findcorrectBotArray(buttonfromp2, 'X');
+
+
                     }
                 }
             }
@@ -225,12 +252,14 @@ public class BluetoothGame extends AppCompatActivity {
 
         }
     }
+
     private void setButtonsVisible() {
         player1tvname.setVisibility(View.VISIBLE);
         player2tvname.setVisibility(View.VISIBLE);
         player1stats.setVisibility(View.VISIBLE);
         player2stats.setVisibility(View.VISIBLE);
         gamesplayedButton.setVisibility(View.VISIBLE);
+        gamestv.setVisibility(View.VISIBLE);
 
         topleft.setVisibility(View.VISIBLE);
         top.setVisibility(View.VISIBLE);
@@ -248,8 +277,6 @@ public class BluetoothGame extends AppCompatActivity {
     }
 
 
-
-
     private void init() {
         showplayerturn = (TextView) findViewById(R.id.tvshowturn);
 
@@ -258,7 +285,10 @@ public class BluetoothGame extends AppCompatActivity {
 
         adapter = BluetoothAdapter.getDefaultAdapter();
 
-        gamesplayedButton = (TextView) findViewById(R.id.gamesplayed);
+        gamestv = (TextView) findViewById(R.id.GamesTextview);
+        gamestv.setVisibility(View.INVISIBLE);
+
+        gamesplayedButton = (TextView) findViewById(R.id.playersTextview);
         gamesplayedButton.setVisibility(View.INVISIBLE);
 
         player1 = new Player(adapter.getName(), 0);
@@ -290,7 +320,7 @@ public class BluetoothGame extends AppCompatActivity {
         topleft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(player1turn==false) {
+                if (player1turn == false) {
                     player1turn = true;
                     buttontosend = topleft;
                     topleft.setEnabled(false);
@@ -300,7 +330,7 @@ public class BluetoothGame extends AppCompatActivity {
         top.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(player1turn==false) {
+                if (player1turn == false) {
                     player1turn = true;
                     buttontosend = top;
                     top.setEnabled(false);
@@ -310,7 +340,7 @@ public class BluetoothGame extends AppCompatActivity {
         topright.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(player1turn==false) {
+                if (player1turn == false) {
                     player1turn = true;
                     buttontosend = topright;
                     topright.setEnabled(false);
@@ -320,7 +350,7 @@ public class BluetoothGame extends AppCompatActivity {
         midleft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(player1turn==false) {
+                if (player1turn == false) {
                     player1turn = true;
                     buttontosend = midleft;
                     midleft.setEnabled(false);
@@ -330,7 +360,7 @@ public class BluetoothGame extends AppCompatActivity {
         mid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(player1turn==false) {
+                if (player1turn == false) {
                     player1turn = true;
                     buttontosend = mid;
                     mid.setEnabled(false);
@@ -340,7 +370,7 @@ public class BluetoothGame extends AppCompatActivity {
         midright.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(player1turn==false) {
+                if (player1turn == false) {
                     player1turn = true;
                     buttontosend = midright;
                     midright.setEnabled(false);
@@ -360,7 +390,7 @@ public class BluetoothGame extends AppCompatActivity {
         bottom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(player1turn==false) {
+                if (player1turn == false) {
                     player1turn = true;
                     buttontosend = bottom;
                     bottom.setEnabled(false);
@@ -370,7 +400,7 @@ public class BluetoothGame extends AppCompatActivity {
         bottomright.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(player1turn==false) {
+                if (player1turn == false) {
                     player1turn = true;
                     buttontosend = bottomright;
                     bottomright.setEnabled(false);
@@ -410,8 +440,14 @@ public class BluetoothGame extends AppCompatActivity {
                         Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
                 startActivity(discoverableIntent);
                 //dialog = ProgressDialog.show(BluetoothGame.this, "Wartet...", "Wartet auf Verbindung...", false, false);
-                bluetoothSocket1 = new test.BluetoothSocket1(BluetoothGame.this);
+                bluetoothSocket1 = new BluetoothSocket1(BluetoothGame.this);
                 bluetoothSocket1.start();
+                while (waittillconnected) {
+                }
+                if (waittillconnected = false) {
+                    player1play();
+                }
+
             }
         });
         buttonplayer2.setOnClickListener(new View.OnClickListener() {
@@ -421,6 +457,11 @@ public class BluetoothGame extends AppCompatActivity {
                 buttonplayer2.setEnabled(false);
                 buttonplayer1.setEnabled(false);
                 findDevices();
+                while (waittillconnected) {
+                }
+                if (waittillconnected = false) {
+                    player2play();
+                }
             }
         });
     }
@@ -428,7 +469,7 @@ public class BluetoothGame extends AppCompatActivity {
     private void findDevices() {
         Intent i = new Intent(this, findBTDevices.class);
         startActivity(i);
-        }
+    }
 
 
     private void findcorrectBotArray(Button button, Character character) {
@@ -460,6 +501,7 @@ public class BluetoothGame extends AppCompatActivity {
             botarray[2][2] = character;
         }
     }
+
     private boolean checkiffull() {
         for (int i = 0; i < botarray.length; i++) {
             for (int o = 0; o < botarray.length; o++) {
@@ -472,6 +514,7 @@ public class BluetoothGame extends AppCompatActivity {
         gameWon(botarray[0][0]);
         return true;
     }
+
     private boolean checkifwon() {
         //top
         if (botarray[0][0] == 'X' && botarray[0][1] == 'X' && botarray[0][2] == 'X') {
@@ -618,4 +661,43 @@ public class BluetoothGame extends AppCompatActivity {
         stmt.executeInsert();
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client.connect();
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "BluetoothGame Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app deep link URI is correct.
+                Uri.parse("android-app://com.example.stefanbartos.toe_tac_tic/http/host/path")
+        );
+        AppIndex.AppIndexApi.start(client, viewAction);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "BluetoothGame Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app deep link URI is correct.
+                Uri.parse("android-app://com.example.stefanbartos.toe_tac_tic/http/host/path")
+        );
+        AppIndex.AppIndexApi.end(client, viewAction);
+        client.disconnect();
+    }
 }
