@@ -57,15 +57,17 @@ public class Stats extends AppCompatActivity {
             alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    db.delete(Schemaklasse.TABLE_NAME, Schemaklasse.id + "=?", new String[]{"" + (pos + 1)});
+
+                    db.delete(Schemaklasse.TABLE_NAME, Schemaklasse.id + " = ?", new String[]{String.valueOf(pos)+1});
                     al.remove(pos);
+                    adapter.notifyDataSetChanged();
                 }
             });
 
             alert.setNegativeButton("NO", null);
             alert.show();
-
         }
+
 
                 private void initListData() {
                     Cursor cursor = db.query(Schemaklasse.TABLE_NAME, Schemaklasse.All_COLUMNS, null, null, null, null, null);
